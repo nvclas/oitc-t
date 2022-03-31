@@ -1,0 +1,16 @@
+main: de.theniclas.oitct.main.Main
+name: OITC-T
+version: 0.9
+author: nvclas
+commands:
+   team:
+   ac:
+   startfight:
+      aliases: [sf]
+   map:
+   spec:
+      aliases: [spectate]
+   kit:
+   lobby:
+      aliases: [l, hub, leave]
+   ping:
