@@ -23,7 +23,7 @@ public class CMDteam implements CommandExecutor {
 			p.sendMessage(Chat.PREFIX + "§e/team create <Teamname> <Spieler> [Spieler] ... [Spieler]");
 			p.sendMessage(Chat.PREFIX + "§e/team delete <Teamname>");
 			p.sendMessage(Chat.PREFIX + "§e/team rename <Teamname> <neuer Teamname>");
-			p.sendMessage(Chat.PREFIX + "§e/team addpoints <Teamname> <Punkte>");
+			p.sendMessage(Chat.PREFIX + "§e/team setpoints <Teamname> <Punkte>");
 			p.sendMessage(Chat.PREFIX + "§e/team remove <Teamname> <Spieler>");
 			p.sendMessage(Chat.PREFIX + "§e/team add <Teamname> <Spieler>");
 		}
@@ -158,7 +158,7 @@ public class CMDteam implements CommandExecutor {
 				return true;
 			}
 			
-			if(args[0].equalsIgnoreCase("addpoints")) {
+			if(args[0].equalsIgnoreCase("setpoints")) {
 				Team team = Team.getTeam(args[1]);
 				if(team == null) {
 					p.sendMessage(Chat.PREFIX + "§cDas Team existiert nicht");
@@ -168,17 +168,17 @@ public class CMDteam implements CommandExecutor {
 					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
 					return true;
 				}
-				if(!Methods.isNumeric(args[2]) || Integer.parseInt(args[2]) < 0) {
-					p.sendMessage(Chat.PREFIX + "§cDu musst eine ganze Zahl, die größer als 0 ist angeben");
+				if(!Methods.isNumeric(args[2])) {
+					p.sendMessage(Chat.PREFIX + "§cDu musst eine ganze Zahl angeben");
 					return true;
 				}
 				int points = Integer.parseInt(args[2]);
-				team.addPoints(points);
+				team.setPoints(points);
 				if(points == 1) {
-					p.sendMessage(Chat.PREFIX + "§bDem Team §e" + team.getTeamName() + " §bwurde §e" + args[2] + " §bPunkt hinzugefügt");
+					p.sendMessage(Chat.PREFIX + "§bDer Punktestand von §e" + team.getTeamName() + " §bwurde auf §e" + args[2] + " §bPunkt gesetzt");
 					return true;
 				}
-				p.sendMessage(Chat.PREFIX + "§bDem Team §e" + team.getTeamName() + " §bwurden §e" + args[2] + " §bPunkte hinzugefügt");
+				p.sendMessage(Chat.PREFIX + "§bDer Punktestand von §e" + team.getTeamName() + " §bwurde auf §e" + args[2] + " §bPunkte gesetzt");
 				return true;
 			}
 			
