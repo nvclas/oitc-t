@@ -145,7 +145,7 @@ public class Team {
 		for(String teamName : TREE.getConfig().getConfigurationSection("Team").getKeys(false)) {
 			teams.add(getTeam(teamName));
 		}
-		teams.sort((o1, o2) -> o1.getPoints() < o2.getPoints() ? -1 : o1.getPoints() == o2.getPoints() ? 0 : 1);
+		teams.sort((o1, o2) -> o1.getPoints() < o2.getPoints() ? 1 : o1.getPoints() == o2.getPoints() ? 0 : -1);
 		return teams;
 	}
 
@@ -156,11 +156,13 @@ public class Team {
 	public void setPoints(int points) {
 		this.points = points;
 		TREE.getConfig().set("Team." + teamName + ".Points", this.points);
+		TREE.saveFile();
 	}
 	
 	public void addPoints(int points) {
 		this.points += points;
 		TREE.getConfig().set("Team." + teamName + ".Points", this.points);
+		TREE.saveFile();
 	}
 
 }

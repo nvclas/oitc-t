@@ -168,7 +168,7 @@ public class CMDteam implements CommandExecutor {
 					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
 					return true;
 				}
-				if(!Methods.isNumeric(args[2]) && Integer.parseInt(args[2]) > 0) {
+				if(!Methods.isNumeric(args[2]) || Integer.parseInt(args[2]) < 0) {
 					p.sendMessage(Chat.PREFIX + "§cDu musst eine ganze Zahl, die größer als 0 ist angeben");
 					return true;
 				}
