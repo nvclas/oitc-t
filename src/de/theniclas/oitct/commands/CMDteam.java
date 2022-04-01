@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import de.theniclas.oitct.objects.Team;
 import de.theniclas.oitct.utils.Chat;
+import de.theniclas.oitct.utils.UUIDFetcher;
 
 public class CMDteam implements CommandExecutor {
 
@@ -29,7 +30,6 @@ public class CMDteam implements CommandExecutor {
 		p.sendMessage(Chat.PREFIX + "§e/team show");
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(!command.getName().equalsIgnoreCase("team")) return true;
@@ -46,7 +46,7 @@ public class CMDteam implements CommandExecutor {
 			}
 			p.sendMessage(Chat.PREFIX + "§7--- §bListe aller Teams §7---");
 			for(Team team : Team.getTeamList()) {
-				p.sendMessage(Chat.PREFIX + "§c" + team.getTeamName() + "§8:");
+				p.sendMessage(Chat.PREFIX + "§c" + team.getTeamName() + "§8: §7(§9" + team.getPoints() + "§7)");
 				for(String uuid : team.getMembers()) {
 					p.sendMessage(Chat.PREFIX + "§7- §d" + Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
 				}
@@ -60,9 +60,9 @@ public class CMDteam implements CommandExecutor {
 				p.sendMessage(Chat.PREFIX + "§cDu bist in keinem Team");
 				return true;
 			}
-			String teamName = Team.getTeamName(p.getUniqueId().toString());
-			p.sendMessage(Chat.PREFIX + "§cDein Team §e" + teamName + "§8:");
-			for(String uuid : Team.getTeam(teamName).getMembers()) {
+			Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
+			p.sendMessage(Chat.PREFIX + "§cDein Team §e" + team.getTeamName() + "§8: §7(§9" + team.getPoints() + "§7)");
+			for(String uuid : team.getMembers()) {
 				p.sendMessage(Chat.PREFIX + "§7- §d" + Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
 			}
 			return true;
@@ -76,8 +76,8 @@ public class CMDteam implements CommandExecutor {
 		if(args.length == 2) {
 
 			if(args[0].equalsIgnoreCase("create")) {
-				OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
-				if(!(target.hasPlayedBefore() || target.isOnline())) {
+				OfflinePlayer target = Bukkit.getOfflinePlayer(UUIDFetcher.getOfflineUUID(args[1]));
+				if(!target.hasPlayedBefore()) {
 					p.sendMessage(Chat.PREFIX + "§cDieser Spieler war noch nie online");
 					return true;
 				}
@@ -134,8 +134,8 @@ public class CMDteam implements CommandExecutor {
 				if(team.getFight() != null) {
 					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
 				}
-				OfflinePlayer target = Bukkit.getOfflinePlayer(args[2]);
-				if(!(target.hasPlayedBefore() || target.isOnline())) {
+				OfflinePlayer target = Bukkit.getOfflinePlayer(UUIDFetcher.getOfflineUUID(args[2]));
+				if(!target.hasPlayedBefore()) {
 					p.sendMessage(Chat.PREFIX + "§cDieser Spieler war noch nie online");
 					return true;
 				}
@@ -164,8 +164,8 @@ public class CMDteam implements CommandExecutor {
 				if(team.getFight() != null) {
 					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
 				}
-				OfflinePlayer target = Bukkit.getOfflinePlayer(args[2]);
-				if(!(target.hasPlayedBefore() || target.isOnline())) {
+				OfflinePlayer target = Bukkit.getOfflinePlayer(UUIDFetcher.getOfflineUUID(args[2]));
+				if(!target.hasPlayedBefore()) {
 					p.sendMessage(Chat.PREFIX + "§cDieser Spieler war noch nie online");
 					return true;
 				}
@@ -213,8 +213,8 @@ public class CMDteam implements CommandExecutor {
 					return true;
 				}
 				for(int i = 2; i < args.length; i++) {
-					OfflinePlayer target = Bukkit.getOfflinePlayer(args[i]);
-					if(!(target.hasPlayedBefore() || target.isOnline())) {
+					OfflinePlayer target = Bukkit.getOfflinePlayer(UUIDFetcher.getOfflineUUID(args[i]));
+					if(!target.hasPlayedBefore()) {
 						p.sendMessage(Chat.PREFIX + "§6" + target.getName() + " §cwar noch nie online");
 						return true;
 					}
