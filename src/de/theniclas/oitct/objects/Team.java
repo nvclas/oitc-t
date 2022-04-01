@@ -13,6 +13,7 @@ import de.theniclas.oitct.utils.Data;
 public class Team {
 
 	private String teamName;
+	private int points;
 	private List<String> members;
 	public static final Data TREE = new Data("tree.yml");
 
@@ -27,7 +28,7 @@ public class Team {
 	}
 
 	public void saveTeam() {
-		TREE.getConfig().set("Team." + teamName, members);
+		TREE.getConfig().set("Team." + teamName + ".Members", members);
 		TREE.saveFile();
 	}
 
@@ -54,7 +55,7 @@ public class Team {
 	}
 	
 	public void fillMembers() {
-		this.members = TREE.getConfig().getStringList("Team." + getTeamName());
+		this.members = TREE.getConfig().getStringList("Team." + teamName + ".Members");
 	}
 
 	public void setMembers(List<String> members) {
@@ -105,11 +106,15 @@ public class Team {
 		return teamName;
 	}
 	
+	public int getPoints() {
+		return points;
+	}
+	
 	public static String getTeamName(String uuid) {
 		if(TREE.getConfig().getConfigurationSection("Team") == null)
 			return null;
 		for(String teamName : TREE.getConfig().getConfigurationSection("Team").getKeys(false)) {
-			if(TREE.getConfig().getList("Team." + teamName).contains(uuid))
+			if(TREE.getConfig().getList("Team." + teamName + ".Members").contains(uuid))
 				return teamName;
 		}
 		return null;
@@ -144,6 +149,16 @@ public class Team {
 
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
+	}
+	
+	public void setPoints(int points) {
+		this.points = points;
+		TREE.getConfig().set("Team." + teamName + ".Points", this.points);
+	}
+	
+	public void addPoints(int points) {
+		this.points += points;
+		TREE.getConfig().set("Team." + teamName + ".Points", this.points);
 	}
 
 }
