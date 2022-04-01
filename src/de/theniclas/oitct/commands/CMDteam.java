@@ -168,8 +168,8 @@ public class CMDteam implements CommandExecutor {
 					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
 					return true;
 				}
-				if(!Methods.isNumeric(args[2])) {
-					p.sendMessage(Chat.PREFIX + "§cDu musst eine ganze Zahl angeben");
+				if(!Methods.isNumeric(args[2]) || Integer.parseInt(args[2]) < 0) {
+					p.sendMessage(Chat.PREFIX + "§cDu musst eine ganze Zahl größer 0 angeben");
 					return true;
 				}
 				int points = Integer.parseInt(args[2]);
