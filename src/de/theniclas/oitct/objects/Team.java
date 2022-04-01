@@ -145,6 +145,7 @@ public class Team {
 		for(String teamName : TREE.getConfig().getConfigurationSection("Team").getKeys(false)) {
 			teams.add(getTeam(teamName));
 		}
+		teams.sort((o1, o2) -> o1.getPoints() < o2.getPoints() ? -1 : o1.getPoints() == o2.getPoints() ? 0 : 1);
 		return teams;
 	}
 

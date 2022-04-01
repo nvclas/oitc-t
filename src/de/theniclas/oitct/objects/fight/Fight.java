@@ -161,6 +161,7 @@ public class Fight {
 
 	public void end() {
 		setState(State.ENDING);
+		winner.addPoints(1);
 		for(Player p : witnesses) {
 			if(getWinner().getMembers().contains(p.getUniqueId().toString())) {
 				Title.sendTitle(p, "§2GEWONNEN", 20, 60, 20);
