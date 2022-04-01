@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -20,6 +19,7 @@ import de.theniclas.oitct.objects.Lobby;
 import de.theniclas.oitct.objects.Map;
 import de.theniclas.oitct.objects.Team;
 import de.theniclas.oitct.utils.Chat;
+import de.theniclas.oitct.utils.Methods;
 import de.theniclas.oitct.utils.Title;
 
 public class Fight {
@@ -30,7 +30,9 @@ public class Fight {
 	private Team winner;
 	private Map map;
 	private Kit kit;
-
+	private int lives;
+	
+	private HashMap<Player, Integer> livesMap;
 	private List<Player> witnesses;
 	private List<Player> alive;
 	private List<Block> placedBlocks;
@@ -38,12 +40,16 @@ public class Fight {
 	private static HashMap<Player, Fight> spectators = new HashMap<>();
 	private static HashMap<String, Fight> fights = new HashMap<>();
 	
-
-	public Fight(Team team1, Team team2, Map map, Kit kit) {
+	public Fight(Team team1, Team team2, Map map, Kit kit, int lives) {
 		this.team1 = team1;
 		this.team2 = team2;
 		this.map = map;
 		this.kit = kit;
+		this.lives = lives;
+		
+		if(lives != 0) {
+			this.livesMap = new HashMap<>();
+		}
 		this.witnesses = new ArrayList<>();
 		this.alive = new ArrayList<>();
 		this.placedBlocks = new ArrayList<>();
@@ -54,25 +60,31 @@ public class Fight {
 
 	public void start() {
 		setState(State.STARTING);
-		for(String uuid : team1.getMembers()) {
-			OfflinePlayer op = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
-			if(!op.isOnline())
-				continue;
-			op.getPlayer().spigot().respawn();
-			alive.add(op.getPlayer());
-			witnesses.add(op.getPlayer());
-			op.getPlayer().teleport(map.getTeam1Spawns().get(team1.getMembers().indexOf(uuid)));
-			op.getPlayer().setGameMode(GameMode.SURVIVAL);
+		for(String uuid : team1.getOnlineMembers()) {
+			Player p = Bukkit.getPlayer(UUID.fromString(uuid));
+			p.getPlayer().spigot().respawn();
+			alive.add(p.getPlayer());
+			witnesses.add(p.getPlayer());
+			if(livesMap != null) {
+				livesMap.put(p.getPlayer(), lives);
+				p.setLevel(lives);
+				p.setExp(1);
+			}
+			p.getPlayer().teleport(map.getTeam1Spawns().get(team1.getOnlineMembers().indexOf(uuid)));
+			p.getPlayer().setGameMode(GameMode.SURVIVAL);
 		}
-		for(String uuid : team2.getMembers()) {
-			OfflinePlayer op = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
-			if(!op.isOnline())
-				continue;
-			op.getPlayer().spigot().respawn();
-			alive.add(op.getPlayer());
-			witnesses.add(op.getPlayer());
-			op.getPlayer().teleport(map.getTeam2Spawns().get(team2.getMembers().indexOf(uuid)));
-			op.getPlayer().setGameMode(GameMode.SURVIVAL);
+		for(String uuid : team2.getOnlineMembers()) {
+			Player p = Bukkit.getPlayer(UUID.fromString(uuid));
+			p.getPlayer().spigot().respawn();
+			alive.add(p.getPlayer());
+			witnesses.add(p.getPlayer());
+			if(livesMap != null) {
+				livesMap.put(p.getPlayer(), lives);
+				p.setLevel(lives);
+				p.setExp(1);
+			}
+			p.getPlayer().teleport(map.getTeam2Spawns().get(team2.getOnlineMembers().indexOf(uuid)));
+			p.getPlayer().setGameMode(GameMode.SURVIVAL);
 		}
 		for(Player p : witnesses) {
 			for(Player all : Bukkit.getOnlinePlayers()) {
@@ -203,6 +215,19 @@ public class Fight {
 	}
 
 	public void kill(Player p) {
+		if(livesMap != null && livesMap.containsKey(p)) {
+			if(livesMap.get(p) >= 2) {
+				if(team1.getMembers().contains(p.getUniqueId().toString())) 
+					p.teleport(map.getTeam1Spawns().get(Team.getTeam(Team.getTeamName(p.getUniqueId().toString())).getOnlineMembers().indexOf(p.getUniqueId().toString())));
+				if(team2.getMembers().contains(p.getUniqueId().toString()))
+					p.teleport(map.getTeam2Spawns().get(Team.getTeam(Team.getTeamName(p.getUniqueId().toString())).getOnlineMembers().indexOf(p.getUniqueId().toString())));
+				livesMap.put(p, livesMap.get(p) - 1);
+				p.setLevel(livesMap.get(p));
+				Methods.fullHeal(p);
+				return;
+			}
+			livesMap.remove(p);
+		}
 		alive.remove(p);
 		p.setGameMode(GameMode.SPECTATOR);
 		if(!alive.stream().anyMatch(element -> team1.getMembers().contains(element.getUniqueId().toString()))) {
@@ -219,7 +244,9 @@ public class Fight {
 
 	public void disqualify(Player p) {
 		alive.remove(p);
+		livesMap.remove(p);
 		witnesses.remove(p);
+		if(livesMap != null && livesMap.containsKey(p)) livesMap.remove(p);
 		if(state == State.ENDING) {
 			return;
 		}
@@ -266,6 +293,10 @@ public class Fight {
 		return team2;
 	}
 
+	public HashMap<Player, Integer> getLives() {
+		return livesMap;
+	}
+	
 	public List<Player> getWitnesses() {
 		return witnesses;
 	}
@@ -300,7 +331,7 @@ public class Fight {
 	public Team getWinner() {
 		return winner;
 	}
-
+	
 	public void setWinner(Team winner) {
 		this.winner = winner;
 	}

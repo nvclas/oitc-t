@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 public class Methods {
 
@@ -23,6 +24,15 @@ public class Methods {
 		} catch(NumberFormatException e) {
 			return false;
 		}
+	}
+	
+	public static void fullHeal(Player p) {
+		p.setHealth(20);
+		p.setFoodLevel(20);
+		p.setSaturation(0);
+		p.getActivePotionEffects().clear();
+		p.setFireTicks(0);
+		p.setFallDistance(0);
 	}
 	
 }

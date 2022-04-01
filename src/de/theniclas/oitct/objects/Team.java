@@ -45,10 +45,7 @@ public class Team {
 	}
 
 	public void sendAllMembers(String message) {
-		for(String uuid : getMembers()) {
-			if(!Bukkit.getOfflinePlayer(UUID.fromString(uuid)).isOnline()) {
-				continue;
-			}
+		for(String uuid : getOnlineMembers()) {
 			Player target = Bukkit.getPlayer(UUID.fromString(uuid));
 			target.sendMessage(message);
 		}

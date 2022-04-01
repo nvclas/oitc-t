@@ -93,8 +93,8 @@ public class CMDteam implements CommandExecutor {
 				p.sendMessage(Chat.PREFIX + "§bDas Team §e" + team.getTeamName() + " §bwurde erstellt");
 				p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 0.5f, 1.0f);
 				if(target.isOnline()) {
-					((Player) target).sendMessage(Chat.PREFIX + "§bDu bist nun im Team §e" + team.getTeamName());
-					((Player) target).playSound(((Player) target).getLocation(), Sound.SUCCESSFUL_HIT, 0.5f, 1.0f);
+					target.getPlayer().sendMessage(Chat.PREFIX + "§bDu bist nun im Team §e" + team.getTeamName());
+					target.getPlayer().playSound(((Player) target).getLocation(), Sound.SUCCESSFUL_HIT, 0.5f, 1.0f);
 				}
 				return true;
 			}
@@ -112,10 +112,7 @@ public class CMDteam implements CommandExecutor {
 				team.deleteTeam();
 				p.sendMessage(Chat.PREFIX + "§bDas Team §e" + team.getTeamName() + " §bwurde gelöscht");
 				p.playSound(p.getLocation(), Sound.BAT_DEATH, 0.5f, 1.0f);
-				for(String uuid : team.getMembers()) {
-					if(!Bukkit.getOfflinePlayer(UUID.fromString(uuid)).isOnline()) {
-						continue;
-					}
+				for(String uuid : team.getOnlineMembers()) {
 					Player target = Bukkit.getPlayer(UUID.fromString(uuid));
 					target.sendMessage(Chat.PREFIX + "§cDein Team wurde gelöscht");
 					target.playSound(target.getLocation(), Sound.BAT_DEATH, 0.5f, 1.0f);
@@ -256,12 +253,10 @@ public class CMDteam implements CommandExecutor {
 				team.saveTeam();
 				p.sendMessage(Chat.PREFIX + "§bDas Team §e" + team.getTeamName() + " §bwurde erstellt");
 				p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 0.5f, 1.0f);
-				for(String uuid : team.getMembers()) {
-					OfflinePlayer target = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
-					if(target.isOnline()) {
-						((Player) target).sendMessage(Chat.PREFIX + "§bDu bist nun im Team §e" + team.getTeamName());
-						((Player) target).playSound(((Player) target).getLocation(), Sound.SUCCESSFUL_HIT, 0.5f, 1.0f);
-					}
+				for(String uuid : team.getOnlineMembers()) {
+					Player target = Bukkit.getPlayer(UUID.fromString(uuid));
+					target.sendMessage(Chat.PREFIX + "§bDu bist nun im Team §e" + team.getTeamName());
+					target.playSound(((Player) target).getLocation(), Sound.SUCCESSFUL_HIT, 0.5f, 1.0f);
 				}
 				return true;
 			}

@@ -1,5 +1,6 @@
 package de.theniclas.oitct.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,12 +11,13 @@ import de.theniclas.oitct.objects.Map;
 import de.theniclas.oitct.objects.Team;
 import de.theniclas.oitct.objects.fight.Fight;
 import de.theniclas.oitct.utils.Chat;
+import de.theniclas.oitct.utils.Methods;
 
 public class CMDstartfight implements CommandExecutor {
 
 	private void printHelp(Player p) {
 		p.sendMessage(Chat.PREFIX + "§8--- §7/§bstartfight §8---");
-		p.sendMessage(Chat.PREFIX + "§e/startfight <Team> <Team> <Map> <Kit>");
+		p.sendMessage(Chat.PREFIX + "§e/startfight <Team> <Team> <Map> <Kit> [Leben]");
 	}
 	
 	@Override
@@ -46,6 +48,14 @@ public class CMDstartfight implements CommandExecutor {
 		Team team2 = Team.getTeam(args[1]);
 		Map map = Map.getMap(args[2]);
 		Kit kit = Kit.getKit(args[3]);
+		int lives = 0;
+		if(args.length >= 5) {
+			if(!Methods.isNumeric(args[4]) || Integer.parseInt(args[4]) <= 0) {
+				p.sendMessage(Chat.PREFIX + "§cDu musst eine ganze Zahl größer 0 angeben");
+				return true;
+			}
+			lives = Integer.parseInt(args[4]);
+		}
 		if(team1 == null) {
 			p.sendMessage(Chat.PREFIX + "§cDas Team §6" + args[0] + " §cexistiert nicht §8(§7/§bteam§8)");
 			return true;
@@ -88,8 +98,11 @@ public class CMDstartfight implements CommandExecutor {
 			p.sendMessage(Chat.PREFIX + "§cNiemand aus §6" + team2.getTeamName() + " §cist online");
 			return true;
 		}
-		Fight fight = new Fight(team1, team2, map, kit);
+		Fight fight = new Fight(team1, team2, map, kit, lives);
 		fight.start();
+		for(Player all : Bukkit.getOnlinePlayers()) {
+			all.sendMessage(Chat.PREFIX + "§bDer Kampf §e" + team1.getTeamName() + " §cvs§7. §e" + team2.getTeamName() + " §bwurde gestartet");
+		}
 		
 		return true;
 	}
