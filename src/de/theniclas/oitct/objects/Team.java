@@ -131,6 +131,7 @@ public class Team {
 		Team team = new Team(name);
 		if(team.exists()) {
 			team.fillMembers();
+			team.setPoints(TREE.getConfig().getInt("Team." + team.getTeamName() + ".Points"));
 			return team;
 		}
 		return null;
