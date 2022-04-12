@@ -28,7 +28,7 @@ public class EntityDamageByEntityHandler implements Listener {
 		if(e.getFinalDamage() >= p.getHealth()) {
 			e.setCancelled(true);
 			for(Player witness : team.getFight().getWitnesses()) {
-				witness.sendMessage(Chat.PREFIX + "§e" + p.getName() + " §bwurde von §e" + killer.getName() + " §bgetötet");
+				witness.sendMessage(Chat.PREFIX + "Â§e" + p.getName() + " Â§bwurde von Â§e" + killer.getName() + " Â§bgetÃ¶tet");
 			}
 			team.getFight().kill(p);
 			return;

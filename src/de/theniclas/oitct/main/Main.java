@@ -64,7 +64,7 @@ public class Main extends JavaPlugin {
 		new Data("kits.yml").createFile();
 		new Data("lobby.yml").createFile();
 
-		System.out.println("OITC-Turnierplugin l‰uft!");
+		System.out.println("OITC-Turnierplugin l√§uft!");
 	}
 
 	public static Main getPlugin() {

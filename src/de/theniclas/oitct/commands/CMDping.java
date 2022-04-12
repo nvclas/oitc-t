@@ -22,14 +22,14 @@ public class CMDping implements CommandExecutor {
 		int ping = ((CraftPlayer) p).getHandle().ping;
 		
 		if(ping <= 40) {
-			p.sendMessage(Chat.PREFIX + "§bDein Ping§7: §a" + ping + "ms");
+			p.sendMessage(Chat.PREFIX + "Â§bDein PingÂ§7: Â§a" + ping + "ms");
 			return true;
 		}
 		if(ping >= 80) {
-			p.sendMessage(Chat.PREFIX + "§bDein Ping§7: §c" + ping + "ms");
+			p.sendMessage(Chat.PREFIX + "Â§bDein PingÂ§7: Â§c" + ping + "ms");
 			return true;
 		}
-		p.sendMessage(Chat.PREFIX + "§bDein Ping§7: §6" + ping + "ms");
+		p.sendMessage(Chat.PREFIX + "Â§bDein PingÂ§7: Â§6" + ping + "ms");
 		return true;
 	}
 

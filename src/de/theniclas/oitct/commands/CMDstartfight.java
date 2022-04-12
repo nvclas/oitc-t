@@ -16,8 +16,8 @@ import de.theniclas.oitct.utils.Methods;
 public class CMDstartfight implements CommandExecutor {
 
 	private void printHelp(Player p) {
-		p.sendMessage(Chat.PREFIX + "§8--- §7/§bstartfight §8---");
-		p.sendMessage(Chat.PREFIX + "§e/startfight <Team> <Team> <Map> <Kit> [Leben]");
+		p.sendMessage(Chat.PREFIX + "Â§8--- Â§7/Â§bstartfight Â§8---");
+		p.sendMessage(Chat.PREFIX + "Â§e/startfight <Team> <Team> <Map> <Kit> [Leben]");
 	}
 	
 	@Override
@@ -40,7 +40,7 @@ public class CMDstartfight implements CommandExecutor {
 		}
 		
 		if(args[0].equals(args[1])) {
-			p.sendMessage(Chat.PREFIX + "§cEs müssen zwei unterschiedliche Teams angegeben werden");
+			p.sendMessage(Chat.PREFIX + "Â§cEs mÃ¼ssen zwei unterschiedliche Teams angegeben werden");
 			return true;
 		}
 		
@@ -51,57 +51,57 @@ public class CMDstartfight implements CommandExecutor {
 		int lives = 0;
 		if(args.length >= 5) {
 			if(!Methods.isNumeric(args[4]) || Integer.parseInt(args[4]) <= 0) {
-				p.sendMessage(Chat.PREFIX + "§cDu musst eine ganze Zahl größer 0 angeben");
+				p.sendMessage(Chat.PREFIX + "Â§cDu musst eine ganze Zahl grÃ¶ÃŸer 0 angeben");
 				return true;
 			}
 			lives = Integer.parseInt(args[4]);
 		}
 		if(team1 == null) {
-			p.sendMessage(Chat.PREFIX + "§cDas Team §6" + args[0] + " §cexistiert nicht §8(§7/§bteam§8)");
+			p.sendMessage(Chat.PREFIX + "Â§cDas Team Â§6" + args[0] + " Â§cexistiert nicht Â§8(Â§7/Â§bteamÂ§8)");
 			return true;
 		}
 		if(team2 == null) {
-			p.sendMessage(Chat.PREFIX + "§cDas Team §6" + args[1] + " §cexistiert nicht §8(§7/§bteam§8)");
+			p.sendMessage(Chat.PREFIX + "Â§cDas Team Â§6" + args[1] + " Â§cexistiert nicht Â§8(Â§7/Â§bteamÂ§8)");
 			return true;
 		}
 		if(map == null) {
-			p.sendMessage(Chat.PREFIX + "§cDie Map §6" + args[2] + " §cexistiert nicht §8(§7/§bmap§8)");
+			p.sendMessage(Chat.PREFIX + "Â§cDie Map Â§6" + args[2] + " Â§cexistiert nicht Â§8(Â§7/Â§bmapÂ§8)");
 			return true;
 		}
 		if(kit == null) {
-			p.sendMessage(Chat.PREFIX + "§cDas Kit §6" + args[3] + " §cexistiert nicht §8(§7/§bkit§8)");
+			p.sendMessage(Chat.PREFIX + "Â§cDas Kit Â§6" + args[3] + " Â§cexistiert nicht Â§8(Â§7/Â§bkitÂ§8)");
 			return true;
 		}
 		
 		if(team1.getFight() != null) {
-			p.sendMessage(Chat.PREFIX + "§cDas Team §6" + team1.getTeamName() + " §ckämpft bereits");
+			p.sendMessage(Chat.PREFIX + "Â§cDas Team Â§6" + team1.getTeamName() + " Â§ckÃ¤mpft bereits");
 			return true;
 		}
 		if(team2.getFight() != null) {
-			p.sendMessage(Chat.PREFIX + "§cDas Team §6" + team2.getTeamName() + " §ckämpft bereits");
+			p.sendMessage(Chat.PREFIX + "Â§cDas Team Â§6" + team2.getTeamName() + " Â§ckÃ¤mpft bereits");
 			return true;
 		}
 		
 		if(map.getTeam1Spawns().size() < team1.getOnlineMembers().size()) {
-			p.sendMessage(Chat.PREFIX + "§cDie Map hat nicht genug Spawnpunkte für §6" + team1.getTeamName() + " §c, es fehlen §6" + (team1.getMembers().size() - map.getTeam1Spawns().size()));
+			p.sendMessage(Chat.PREFIX + "Â§cDie Map hat nicht genug Spawnpunkte fÂ§r Â§6" + team1.getTeamName() + " Â§c, es fehlen Â§6" + (team1.getMembers().size() - map.getTeam1Spawns().size()));
 			return true;
 		}
 		if(map.getTeam2Spawns().size() < team2.getOnlineMembers().size()) {
-			p.sendMessage(Chat.PREFIX + "§cDie Map hat nicht genug Spawnpunkte für §6" + team2.getTeamName() + " §c, es fehlen §6" + (team2.getMembers().size() - map.getTeam2Spawns().size()));
+			p.sendMessage(Chat.PREFIX + "Â§cDie Map hat nicht genug Spawnpunkte fÂ§r Â§6" + team2.getTeamName() + " Â§c, es fehlen Â§6" + (team2.getMembers().size() - map.getTeam2Spawns().size()));
 			return true;
 		}
 		if(team1.getOnlineMembers().size() == 0) {
-			p.sendMessage(Chat.PREFIX + "§cNiemand aus §6" + team1.getTeamName() + " §cist online");
+			p.sendMessage(Chat.PREFIX + "Â§cNiemand aus Â§6" + team1.getTeamName() + " Â§cist online");
 			return true;
 		}
 		if(team2.getOnlineMembers().size() == 0) {
-			p.sendMessage(Chat.PREFIX + "§cNiemand aus §6" + team2.getTeamName() + " §cist online");
+			p.sendMessage(Chat.PREFIX + "Â§cNiemand aus Â§6" + team2.getTeamName() + " Â§cist online");
 			return true;
 		}
 		Fight fight = new Fight(team1, team2, map, kit, lives);
 		fight.start();
 		for(Player all : Bukkit.getOnlinePlayers()) {
-			all.sendMessage(Chat.PREFIX + "§bDer Kampf §e" + team1.getTeamName() + " §cvs§7. §e" + team2.getTeamName() + " §bwurde gestartet");
+			all.sendMessage(Chat.PREFIX + "Â§bDer Kampf Â§e" + team1.getTeamName() + " Â§cvsÂ§7. Â§e" + team2.getTeamName() + " Â§bwurde gestartet");
 		}
 		
 		return true;

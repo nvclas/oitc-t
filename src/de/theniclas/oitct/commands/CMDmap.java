@@ -11,12 +11,12 @@ import de.theniclas.oitct.utils.Chat;
 public class CMDmap implements CommandExecutor {
 
 	private void printHelp(Player p) {
-		p.sendMessage(Chat.PREFIX + "§8--- §7/§bmap §8---");
-		p.sendMessage(Chat.PREFIX + "§e/map list");
-		p.sendMessage(Chat.PREFIX + "§e/map add <Mapname>");
-		p.sendMessage(Chat.PREFIX + "§e/map remove <Mapname>");
-		p.sendMessage(Chat.PREFIX + "§e/map add1spawn <Mapname>");
-		p.sendMessage(Chat.PREFIX + "§e/map add2spawn <Mapname>");
+		p.sendMessage(Chat.PREFIX + "Â§8--- Â§7/Â§bmap Â§8---");
+		p.sendMessage(Chat.PREFIX + "Â§e/map list");
+		p.sendMessage(Chat.PREFIX + "Â§e/map add <Mapname>");
+		p.sendMessage(Chat.PREFIX + "Â§e/map remove <Mapname>");
+		p.sendMessage(Chat.PREFIX + "Â§e/map add1spawn <Mapname>");
+		p.sendMessage(Chat.PREFIX + "Â§e/map add2spawn <Mapname>");
 	}
 	
 	@Override
@@ -40,12 +40,12 @@ public class CMDmap implements CommandExecutor {
 		
 		if(args[0].equalsIgnoreCase("list")) {
 			if(Map.getMapList().isEmpty()) {
-				p.sendMessage(Chat.PREFIX + "§bEs gibt noch keine Maps");
+				p.sendMessage(Chat.PREFIX + "Â§bEs gibt noch keine Maps");
 				return true;
 			}
-			p.sendMessage(Chat.PREFIX + "§7--- §bListe aller Maps §7---");
+			p.sendMessage(Chat.PREFIX + "Â§7--- Â§bListe aller Maps Â§7---");
 			for(Map map : Map.getMapList()) {
-				p.sendMessage(Chat.PREFIX + "§7- §d" + map.getName());
+				p.sendMessage(Chat.PREFIX + "Â§7- Â§d" + map.getName());
 			}
 			return true;
 		}
@@ -58,46 +58,46 @@ public class CMDmap implements CommandExecutor {
 		if(args[0].equalsIgnoreCase("add")) {
 			Map map = new Map(args[1], p.getWorld());
 			if(map.exists()) {
-				p.sendMessage(Chat.PREFIX + "§cDiese Map gibt es bereits");
+				p.sendMessage(Chat.PREFIX + "Â§cDiese Map gibt es bereits");
 				return true;
 			}
 			map.saveMap();
-			p.sendMessage(Chat.PREFIX + "§bDie Map §e" + args[1] + " §bwurde hinzugefügt");
+			p.sendMessage(Chat.PREFIX + "Â§bDie Map Â§e" + args[1] + " Â§bwurde hinzugefÃ¼gt");
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("remove")) {
 			Map map = Map.getMap(args[1]);
 			if(map == null) {
-				p.sendMessage(Chat.PREFIX + "§cDiese Map gibt es nicht");
+				p.sendMessage(Chat.PREFIX + "Â§cDiese Map gibt es nicht");
 				return true;
 			}
 			map.deleteMap();
-			p.sendMessage(Chat.PREFIX + "§bDie Map §e" + args[1] + " wurde gelöscht");
+			p.sendMessage(Chat.PREFIX + "Â§bDie Map Â§e" + args[1] + " wurde gelÃ¶scht");
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("add1spawn")) {
 			Map map = Map.getMap(args[1]);
 			if(map == null) {
-				p.sendMessage(Chat.PREFIX + "§cDiese Map gibt es nicht");
+				p.sendMessage(Chat.PREFIX + "Â§cDiese Map gibt es nicht");
 				return true;
 			}
 			map.addTeam1Spawn(p.getLocation());
 			map.saveMap();
-			p.sendMessage(Chat.PREFIX + "§bSpawnpunkt für Team 1 wurde hinzugefügt");
+			p.sendMessage(Chat.PREFIX + "Â§bSpawnpunkt fÂ§r Team 1 wurde hinzugefÃ¼gt");
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("add2spawn")) {
 			Map map = Map.getMap(args[1]);
 			if(map == null) {
-				p.sendMessage(Chat.PREFIX + "§cDiese Map gibt es nicht");
+				p.sendMessage(Chat.PREFIX + "Â§cDiese Map gibt es nicht");
 				return true;
 			}
 			map.addTeam2Spawn(p.getLocation());
 			map.saveMap();
-			p.sendMessage(Chat.PREFIX + "§bSpawnpunkt für Team 2 wurde hinzugefügt");
+			p.sendMessage(Chat.PREFIX + "Â§bSpawnpunkt fÃ¼r Team 2 wurde hinzugefÃ¼gt");
 			return true;
 		}
 		printHelp(p);

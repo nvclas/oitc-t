@@ -12,9 +12,9 @@ import de.theniclas.oitct.utils.Chat;
 public class CMDlobby implements CommandExecutor {
 
 	private void printHelp(Player p) {
-		p.sendMessage(Chat.PREFIX + "§8--- §7/§blobby §8---");
-		p.sendMessage(Chat.PREFIX + "§e/lobby setspawn");
-		p.sendMessage(Chat.PREFIX + "§e/lobby setinv");
+		p.sendMessage(Chat.PREFIX + "Â§8--- Â§7/Â§blobby Â§8---");
+		p.sendMessage(Chat.PREFIX + "Â§e/lobby setspawn");
+		p.sendMessage(Chat.PREFIX + "Â§e/lobby setinv");
 	}
 	
 	@Override
@@ -30,7 +30,7 @@ public class CMDlobby implements CommandExecutor {
 			
 			Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
 			if(team != null && team.getFight() != null && team.getFight().getAlive().contains(p)) {
-				p.sendMessage(Chat.PREFIX + "§cDu bist mitten im Kampf");
+				p.sendMessage(Chat.PREFIX + "Â§cDu bist mitten im Kampf");
 				return true;
 			}
 			Lobby.sendToLobby(p);
@@ -39,13 +39,13 @@ public class CMDlobby implements CommandExecutor {
 		
 		if(args[0].equalsIgnoreCase("setspawn")) {
 			Lobby.setSpawn(p.getLocation());
-			p.sendMessage(Chat.PREFIX + "§bDer Lobbyspawn wurde gesetzt");
+			p.sendMessage(Chat.PREFIX + "Â§bDer Lobbyspawn wurde gesetzt");
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("setinv")) {
 			Lobby.setInventory(p.getInventory());
-			p.sendMessage(Chat.PREFIX + "§bDas Lobbyinventar wurde gesetzt");
+			p.sendMessage(Chat.PREFIX + "Â§bDas Lobbyinventar wurde gesetzt");
 			return true;
 		}
 		printHelp(p);

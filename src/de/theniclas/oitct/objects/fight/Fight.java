@@ -11,7 +11,10 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Scoreboard;
 
 import de.theniclas.oitct.main.Main;
 import de.theniclas.oitct.objects.Kit;
@@ -37,6 +40,8 @@ public class Fight {
 	private List<Player> alive;
 	private List<Block> placedBlocks;
 	
+	private Scoreboard scoreboard;
+	
 	private static HashMap<Player, Fight> spectators = new HashMap<>();
 	private static HashMap<String, Fight> fights = new HashMap<>();
 	
@@ -46,6 +51,8 @@ public class Fight {
 		this.map = map;
 		this.kit = kit;
 		this.lives = lives;
+		
+		this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 		
 		if(lives != 0) {
 			this.livesMap = new HashMap<>();
@@ -92,6 +99,7 @@ public class Fight {
 					p.hidePlayer(all);
 			}
 		}
+		createScoreboardTeam(team1, team2);
 		new BukkitRunnable() {
 
 			int count = 10;
@@ -107,8 +115,8 @@ public class Fight {
 				}
 				if(count == 10) {
 					for(Player p : witnesses) {
-						Title.sendSubtitle(p, "§6Kit§7: §f" + getKit().getName(), 10, 20, 0);
-						Title.sendTitle(p, "§e" + getTeam1().getTeamName() + " §cvs§7. §e" + getTeam2().getTeamName(), 10, 20, 0);
+						Title.sendSubtitle(p, "Â§6KitÂ§7: Â§f" + getKit().getName(), 10, 20, 0);
+						Title.sendTitle(p, "Â§e" + getTeam1().getTeamName() + " Â§cvsÂ§7. Â§e" + getTeam2().getTeamName(), 10, 20, 0);
 						p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1.0f, 1.0f);
 						kit.giveKit(p);
 					}
@@ -116,51 +124,51 @@ public class Fight {
 				}
 				if(count <= 9 && count >= 8) {
 					for(Player p : witnesses) {
-						Title.sendSubtitle(p, "§6Kit§7: §f" + getKit().getName(), 0, 30, 0);
-						Title.sendTitle(p, "§e" + getTeam1().getTeamName() + " §cvs§7. §e" + getTeam2().getTeamName(), 0, 30, 0);
+						Title.sendSubtitle(p, "Â§6KitÂ§7: Â§f" + getKit().getName(), 0, 30, 0);
+						Title.sendTitle(p, "Â§e" + getTeam1().getTeamName() + " Â§cvsÂ§7. Â§e" + getTeam2().getTeamName(), 0, 30, 0);
 					}
 					
 				}
 				if(count == 7) {
 					for(Player p : witnesses) {
-						Title.sendSubtitle(p, "§a" + count, 0, 30, 0);
-						Title.sendTitle(p, "§e" + getTeam1().getTeamName() + " §cvs§7. §e" + getTeam2().getTeamName(), 0, 30, 0);
+						Title.sendSubtitle(p, "Â§a" + count, 0, 30, 0);
+						Title.sendTitle(p, "Â§e" + getTeam1().getTeamName() + " Â§cvsÂ§7. Â§e" + getTeam2().getTeamName(), 0, 30, 0);
 					}
 					
 				}
 				if(count == 6) {
 					for(Player p : witnesses) {
-						Title.sendSubtitle(p, "§a" + count, 0, 10, 10);
-						Title.sendTitle(p, "§e" + getTeam1().getTeamName() + " §cvs§7. §e" + getTeam2().getTeamName(), 0, 10, 10);
+						Title.sendSubtitle(p, "Â§a" + count, 0, 10, 10);
+						Title.sendTitle(p, "Â§e" + getTeam1().getTeamName() + " Â§cvsÂ§7. Â§e" + getTeam2().getTeamName(), 0, 10, 10);
 					}
 				}
 				if(count == 5 || count == 4) {
 					for(Player p : witnesses) {
-						Title.sendTitle(p, "§a" + count, 5, 10, 5);
+						Title.sendTitle(p, "Â§a" + count, 5, 10, 5);
 						p.playSound(p.getLocation(), Sound.NOTE_STICKS, 1.0f, 1.0f);
 					}	
 				}
 				if(count == 3) {
 					for(Player p : witnesses) {
-						Title.sendTitle(p, "§e3", 5, 10, 5);
+						Title.sendTitle(p, "Â§e3", 5, 10, 5);
 						p.playSound(p.getLocation(), Sound.NOTE_BASS, 1.0f, 1.0f);
 					}	
 				}
 				if(count == 2) {
 					for(Player p : witnesses) {
-						Title.sendTitle(p, "§c2", 5, 10, 5);
+						Title.sendTitle(p, "Â§c2", 5, 10, 5);
 						p.playSound(p.getLocation(), Sound.NOTE_BASS, 1.0f, 1.5f);
 					}
 				}
 				if(count == 1) {
 					for(Player p : witnesses) {
-						Title.sendTitle(p, "§41", 5, 10, 5);
+						Title.sendTitle(p, "Â§41", 5, 10, 5);
 						p.playSound(p.getLocation(), Sound.NOTE_BASS, 1.0f, 2.0f);
 					}
 				}
 				if(count == 0) {
 					for(Player p : witnesses) {
-						Title.sendTitle(p, "§5START", 5, 10, 5);
+						Title.sendTitle(p, "Â§5START", 5, 10, 5);
 						p.playSound(p.getLocation(), Sound.ENDERDRAGON_HIT, 1.0f, 0.8f);
 					}
 					state = State.ONGOING;
@@ -170,25 +178,38 @@ public class Fight {
 			}
 		}.runTaskTimer(Main.getPlugin(), 0, 20);
 	}
+	
+	public void createScoreboardTeam(Team team1, Team team2) {
+		org.bukkit.scoreboard.Team team = scoreboard.getTeam(team1.getTeamName() + team2.getTeamName());
+		if(team == null) {
+			team = scoreboard.registerNewTeam(team1.getTeamName() + team2.getTeamName());
+		}
+		team.setCanSeeFriendlyInvisibles(true);
+		team.setAllowFriendlyFire(true);
+		for(Player p : witnesses) {
+			team.addEntry(p.getName());
+			p.setScoreboard(scoreboard);
+		}
+	}
 
 	public void end() {
 		setState(State.ENDING);
 		winner.addPoints(1);
 		for(Player p : witnesses) {
 			if(getWinner().getMembers().contains(p.getUniqueId().toString())) {
-				Title.sendTitle(p, "§2GEWONNEN", 20, 60, 20);
-				Title.sendSubtitle(p, "§aHerzlichen Glückwunsch", 20, 60, 20);
+				Title.sendTitle(p, "Â§2GEWONNEN", 20, 60, 20);
+				Title.sendSubtitle(p, "Â§aHerzlichen GlÃ¼ckwunsch", 20, 60, 20);
 				p.playSound(p.getLocation(), Sound.PORTAL_TRAVEL, 1.0f, 1.0f);
 				continue;
 			}
 			if(!team1.getMembers().contains(p.getUniqueId().toString()) && !team2.getMembers().contains(p.getUniqueId().toString())) {
-				Title.sendTitle(p, "§5ENDE", 20, 60, 20);
-				Title.sendSubtitle(p, "§bGewonnen hat: §e" + getWinner().getTeamName(), 20, 60, 20);
+				Title.sendTitle(p, "Â§5ENDE", 20, 60, 20);
+				Title.sendSubtitle(p, "Â§bGewonnen hat: Â§e" + getWinner().getTeamName(), 20, 60, 20);
 				p.playSound(p.getLocation(), Sound.WOLF_HOWL, 1.0f, 1.0f);
 				continue;
 			}
-			Title.sendTitle(p, "§4VERLOREN", 20, 60, 20);
-			Title.sendSubtitle(p, "§cViel Glück beim nächsten Mal", 20, 60, 20);
+			Title.sendTitle(p, "Â§4VERLOREN", 20, 60, 20);
+			Title.sendSubtitle(p, "Â§cViel GlÃ¼ck beim nÃ¤chsten Mal", 20, 60, 20);
 			p.playSound(p.getLocation(), Sound.IRONGOLEM_DEATH, 1.0f, 1.0f);
 			continue;
 		}
@@ -200,6 +221,7 @@ public class Fight {
 			@Override
 			public void run() {
 				for(Player p : witnesses) {
+					p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 					Lobby.sendToLobby(p);
 					if(spectators.containsKey(p)) {
 						spectators.remove(p);
@@ -224,6 +246,7 @@ public class Fight {
 				livesMap.put(p, livesMap.get(p) - 1);
 				p.setLevel(livesMap.get(p));
 				Methods.fullHeal(p);
+				p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1 * 20, 1));
 				return;
 			}
 			livesMap.remove(p);
@@ -252,7 +275,7 @@ public class Fight {
 		}
 		
 		for(Player witness : witnesses) {
-			witness.sendMessage(Chat.PREFIX + "§e" + p.getName() + " §bhat den Kampf verlassen");
+			witness.sendMessage(Chat.PREFIX + "Â§e" + p.getName() + " Â§bhat den Kampf verlassen");
 		}
 		if(!alive.stream().anyMatch(element -> team1.getMembers().contains(element.getUniqueId().toString()))) {
 			setWinner(team2);
@@ -269,11 +292,13 @@ public class Fight {
 	public void removeSpectator(Player p) {
 		witnesses.remove(p);
 		spectators.remove(p);
+		p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 	}
 
 	public void addSpectator(Player p) {
 		witnesses.add(p);
 		spectators.put(p, this);
+		p.setScoreboard(scoreboard);
 	}
 
 	public void updateHashMap() {
@@ -318,6 +343,10 @@ public class Fight {
 			return spectators.get(p);
 		}
 		return null;
+	}
+	
+	public Scoreboard getScoreboard() {
+		return scoreboard;
 	}
 
 	public Map getMap() {

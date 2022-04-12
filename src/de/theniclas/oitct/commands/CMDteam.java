@@ -18,17 +18,17 @@ public class CMDteam implements CommandExecutor {
 
 	private void printHelp(Player p) {
 		if(p.hasPermission("oitct.setup")) {
-			p.sendMessage(Chat.PREFIX + "§8--- §7/§bteam §8---");
-			p.sendMessage(Chat.PREFIX + "§e/team create <Spieler>");
-			p.sendMessage(Chat.PREFIX + "§e/team create <Teamname> <Spieler> [Spieler] ... [Spieler]");
-			p.sendMessage(Chat.PREFIX + "§e/team delete <Teamname>");
-			p.sendMessage(Chat.PREFIX + "§e/team rename <Teamname> <neuer Teamname>");
-			p.sendMessage(Chat.PREFIX + "§e/team setpoints <Teamname> <Punkte>");
-			p.sendMessage(Chat.PREFIX + "§e/team remove <Teamname> <Spieler>");
-			p.sendMessage(Chat.PREFIX + "§e/team add <Teamname> <Spieler>");
+			p.sendMessage(Chat.PREFIX + "Â§8--- Â§7/Â§bteam Â§8---");
+			p.sendMessage(Chat.PREFIX + "Â§e/team create <Spieler>");
+			p.sendMessage(Chat.PREFIX + "Â§e/team create <Teamname> <Spieler> [Spieler] ... [Spieler]");
+			p.sendMessage(Chat.PREFIX + "Â§e/team delete <Teamname>");
+			p.sendMessage(Chat.PREFIX + "Â§e/team rename <Teamname> <neuer Teamname>");
+			p.sendMessage(Chat.PREFIX + "Â§e/team setpoints <Teamname> <Punkte>");
+			p.sendMessage(Chat.PREFIX + "Â§e/team remove <Teamname> <Spieler>");
+			p.sendMessage(Chat.PREFIX + "Â§e/team add <Teamname> <Spieler>");
 		}
-		p.sendMessage(Chat.PREFIX + "§e/team list");
-		p.sendMessage(Chat.PREFIX + "§e/team show");
+		p.sendMessage(Chat.PREFIX + "Â§e/team list");
+		p.sendMessage(Chat.PREFIX + "Â§e/team show");
 	}
 
 	@Override
@@ -42,14 +42,14 @@ public class CMDteam implements CommandExecutor {
 		Player p = (Player) sender;	
 		if(args.length == 1 && args[0].equalsIgnoreCase("list")) {
 			if(Team.getTeamList().isEmpty()) {
-				p.sendMessage(Chat.PREFIX + "§bEs gibt noch keine Teams");
+				p.sendMessage(Chat.PREFIX + "Â§bEs gibt noch keine Teams");
 				return true;
 			}
-			p.sendMessage(Chat.PREFIX + "§7--- §bListe aller Teams §7---");
+			p.sendMessage(Chat.PREFIX + "Â§7--- Â§bListe aller Teams Â§7---");
 			for(Team team : Team.getTeamList()) {
-				p.sendMessage(Chat.PREFIX + "§c" + team.getTeamName() + "§8: §7(§9" + team.getPoints() + "§7)");
+				p.sendMessage(Chat.PREFIX + "Â§c" + team.getTeamName() + "Â§8: Â§7(Â§9" + team.getPoints() + "Â§7)");
 				for(String uuid : team.getMembers()) {
-					p.sendMessage(Chat.PREFIX + "§7- §d" + Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
+					p.sendMessage(Chat.PREFIX + "Â§7- Â§d" + Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
 				}
 				p.sendMessage(Chat.PREFIX + "");
 			}
@@ -58,13 +58,13 @@ public class CMDteam implements CommandExecutor {
 		
 		if(args.length == 1 && args[0].equalsIgnoreCase("show")) {
 			if(!Team.hasTeam(p.getUniqueId().toString())) {
-				p.sendMessage(Chat.PREFIX + "§cDu bist in keinem Team");
+				p.sendMessage(Chat.PREFIX + "Â§cDu bist in keinem Team");
 				return true;
 			}
 			Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
-			p.sendMessage(Chat.PREFIX + "§cDein Team §e" + team.getTeamName() + "§8: §7(§9" + team.getPoints() + "§7)");
+			p.sendMessage(Chat.PREFIX + "Â§cDein Team Â§e" + team.getTeamName() + "Â§8: Â§7(Â§9" + team.getPoints() + "Â§7)");
 			for(String uuid : team.getMembers()) {
-				p.sendMessage(Chat.PREFIX + "§7- §d" + Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
+				p.sendMessage(Chat.PREFIX + "Â§7- Â§d" + Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
 			}
 			return true;
 		}
@@ -79,21 +79,21 @@ public class CMDteam implements CommandExecutor {
 			if(args[0].equalsIgnoreCase("create")) {
 				OfflinePlayer target = Bukkit.getOfflinePlayer(Methods.getOfflineUUID(args[1]));
 				if(!target.hasPlayedBefore()) {
-					p.sendMessage(Chat.PREFIX + "§cDieser Spieler war noch nie online");
+					p.sendMessage(Chat.PREFIX + "Â§cDieser Spieler war noch nie online");
 					return true;
 				}
 				if(Team.hasTeam(target.getUniqueId().toString())) {
-					p.sendMessage(Chat.PREFIX + "§cDer Spieler ist bereits im Team §6" + Team.getTeamName(target.getUniqueId().toString()));
+					p.sendMessage(Chat.PREFIX + "Â§cDer Spieler ist bereits im Team Â§6" + Team.getTeamName(target.getUniqueId().toString()));
 					return true;
 				}
 
 				Team team = new Team(target.getName());
 				team.addMember(target.getUniqueId().toString());
 				team.saveTeam();
-				p.sendMessage(Chat.PREFIX + "§bDas Team §e" + team.getTeamName() + " §bwurde erstellt");
+				p.sendMessage(Chat.PREFIX + "Â§bDas Team Â§e" + team.getTeamName() + " Â§bwurde erstellt");
 				p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 0.5f, 1.0f);
 				if(target.isOnline()) {
-					target.getPlayer().sendMessage(Chat.PREFIX + "§bDu bist nun im Team §e" + team.getTeamName());
+					target.getPlayer().sendMessage(Chat.PREFIX + "Â§bDu bist nun im Team Â§e" + team.getTeamName());
 					target.getPlayer().playSound(((Player) target).getLocation(), Sound.SUCCESSFUL_HIT, 0.5f, 1.0f);
 				}
 				return true;
@@ -102,19 +102,19 @@ public class CMDteam implements CommandExecutor {
 			if(args[0].equalsIgnoreCase("delete")) {
 				Team team = Team.getTeam(args[1]);
 				if(team == null) {
-					p.sendMessage(Chat.PREFIX + "§cDas Team existiert nicht");
+					p.sendMessage(Chat.PREFIX + "Â§cDas Team existiert nicht");
 					return true;
 				}
 				if(team.getFight() != null) {
-					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
+					p.sendMessage(Chat.PREFIX + "Â§cDu kannst ein Team nicht bearbeiten wÂ§hrend es kÃ¤mpft");
 					return true;
 				}
 				team.deleteTeam();
-				p.sendMessage(Chat.PREFIX + "§bDas Team §e" + team.getTeamName() + " §bwurde gelöscht");
+				p.sendMessage(Chat.PREFIX + "Â§bDas Team Â§e" + team.getTeamName() + " Â§bwurde gelÃ¶scht");
 				p.playSound(p.getLocation(), Sound.BAT_DEATH, 0.5f, 1.0f);
 				for(String uuid : team.getOnlineMembers()) {
 					Player target = Bukkit.getPlayer(UUID.fromString(uuid));
-					target.sendMessage(Chat.PREFIX + "§cDein Team wurde gelöscht");
+					target.sendMessage(Chat.PREFIX + "Â§cDein Team wurde gelÃ¶scht");
 					target.playSound(target.getLocation(), Sound.BAT_DEATH, 0.5f, 1.0f);
 				}
 				return true;
@@ -127,28 +127,28 @@ public class CMDteam implements CommandExecutor {
 			if(args[0].equalsIgnoreCase("remove")) {
 				Team team = Team.getTeam(args[1]);
 				if(team == null) {
-					p.sendMessage(Chat.PREFIX + "§cDas Team existiert nicht");
+					p.sendMessage(Chat.PREFIX + "Â§cDas Team existiert nicht");
 					return true;
 				}
 				if(team.getFight() != null) {
-					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
+					p.sendMessage(Chat.PREFIX + "Â§cDu kannst ein Team nicht bearbeiten wÃ¤hrend es kÃ¤mpft");
 					return true;
 				}
 				OfflinePlayer target = Bukkit.getOfflinePlayer(Methods.getOfflineUUID(args[2]));
 				if(!target.hasPlayedBefore()) {
-					p.sendMessage(Chat.PREFIX + "§cDieser Spieler war noch nie online");
+					p.sendMessage(Chat.PREFIX + "Â§cDieser Spieler war noch nie online");
 					return true;
 				}
 				if(!team.getTeamName().equals(Team.getTeamName(target.getUniqueId().toString()))) {
-					p.sendMessage(Chat.PREFIX + "§cDer Spieler ist in Team §6" + Team.getTeamName(target.getUniqueId().toString()));
+					p.sendMessage(Chat.PREFIX + "Â§cDer Spieler ist in Team Â§6" + Team.getTeamName(target.getUniqueId().toString()));
 					return true;
 				}
-				team.sendAllMembers(Chat.PREFIX + "§e" + target.getName() + " §bwurde aus §e" + team.getTeamName() + " §bentfernt");
+				team.sendAllMembers(Chat.PREFIX + "Â§e" + target.getName() + " Â§bwurde aus Â§e" + team.getTeamName() + " Â§bentfernt");
 				team.removeMember(target.getUniqueId().toString());
-				p.sendMessage(Chat.PREFIX + "§bDer Spieler §e" + target.getName() + " §bwurde aus §e" + team.getTeamName() + " §bentfernt");
+				p.sendMessage(Chat.PREFIX + "Â§bDer Spieler Â§e" + target.getName() + " Â§bwurde aus Â§e" + team.getTeamName() + " Â§bentfernt");
 				if(team.getMembers().isEmpty()) {
 					team.deleteTeam();
-					p.sendMessage(Chat.PREFIX + "§bDas Team hatte keine Spieler mehr und wurde gelöscht");
+					p.sendMessage(Chat.PREFIX + "Â§bDas Team hatte keine Spieler mehr und wurde gelÃ¶scht");
 					return true;
 				}
 				team.saveTeam();
@@ -158,104 +158,104 @@ public class CMDteam implements CommandExecutor {
 			if(args[0].equalsIgnoreCase("setpoints")) {
 				Team team = Team.getTeam(args[1]);
 				if(team == null) {
-					p.sendMessage(Chat.PREFIX + "§cDas Team existiert nicht");
+					p.sendMessage(Chat.PREFIX + "Â§cDas Team existiert nicht");
 					return true;
 				}
 				if(team.getFight() != null) {
-					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
+					p.sendMessage(Chat.PREFIX + "Â§cDu kannst ein Team nicht bearbeiten wÃ¤hrend es kÃ¤mpft");
 					return true;
 				}
 				if(!Methods.isNumeric(args[2]) || Integer.parseInt(args[2]) < 0) {
-					p.sendMessage(Chat.PREFIX + "§cDu musst eine ganze Zahl größer 0 angeben");
+					p.sendMessage(Chat.PREFIX + "Â§cDu musst eine ganze Zahl grÃ¶ÃŸer 0 angeben");
 					return true;
 				}
 				int points = Integer.parseInt(args[2]);
 				team.setPoints(points);
 				if(points == 1) {
-					p.sendMessage(Chat.PREFIX + "§bDer Punktestand von §e" + team.getTeamName() + " §bwurde auf §e" + args[2] + " §bPunkt gesetzt");
+					p.sendMessage(Chat.PREFIX + "Â§bDer Punktestand von Â§e" + team.getTeamName() + " Â§bwurde auf Â§e" + args[2] + " Â§bPunkt gesetzt");
 					return true;
 				}
-				p.sendMessage(Chat.PREFIX + "§bDer Punktestand von §e" + team.getTeamName() + " §bwurde auf §e" + args[2] + " §bPunkte gesetzt");
+				p.sendMessage(Chat.PREFIX + "Â§bDer Punktestand von Â§e" + team.getTeamName() + " Â§bwurde auf Â§e" + args[2] + " Â§bPunkte gesetzt");
 				return true;
 			}
 			
 			if(args[0].equalsIgnoreCase("add")) {
 				Team team = Team.getTeam(args[1]);
 				if(team == null) {
-					p.sendMessage(Chat.PREFIX + "§cDas Team existiert nicht");
+					p.sendMessage(Chat.PREFIX + "Â§cDas Team existiert nicht");
 					return true;
 				}
 				if(team.getFight() != null) {
-					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
+					p.sendMessage(Chat.PREFIX + "Â§cDu kannst ein Team nicht bearbeiten wÃ¤hrend es kÃ¤mpft");
 					return true;
 				}
 				OfflinePlayer target = Bukkit.getOfflinePlayer(Methods.getOfflineUUID(args[2]));
 				if(!target.hasPlayedBefore()) {
-					p.sendMessage(Chat.PREFIX + "§cDieser Spieler war noch nie online");
+					p.sendMessage(Chat.PREFIX + "Â§cDieser Spieler war noch nie online");
 					return true;
 				}
 				if(Team.hasTeam(target.getUniqueId().toString())) {
-					p.sendMessage(Chat.PREFIX + "§cDer Spieler ist bereits im Team §6" + Team.getTeamName(target.getUniqueId().toString()));
+					p.sendMessage(Chat.PREFIX + "Â§cDer Spieler ist bereits im Team Â§6" + Team.getTeamName(target.getUniqueId().toString()));
 					return true;
 				}
 				team.addMember(target.getUniqueId().toString());
 				team.saveTeam();
-				p.sendMessage(Chat.PREFIX + "§bDer Spieler §e" + target.getName() + " §bwurde zu §e" + team.getTeamName() + " §bhinzugefügt");
-				team.sendAllMembers(Chat.PREFIX + "§e" + target.getName() + " §bwurde §e" + team.getTeamName() + " §bhinzugefügt");
+				p.sendMessage(Chat.PREFIX + "Â§bDer Spieler Â§e" + target.getName() + " Â§bwurde zu Â§e" + team.getTeamName() + " Â§bhinzugefÃ¼gt");
+				team.sendAllMembers(Chat.PREFIX + "Â§e" + target.getName() + " Â§bwurde Â§e" + team.getTeamName() + " Â§bhinzugefÃ¼gt");
 				return true;
 			}
 			
 			if(args[0].equalsIgnoreCase("rename")) {
 				Team team = Team.getTeam(args[1]);
 				if(team == null) {
-					p.sendMessage(Chat.PREFIX + "§cDas Team existiert nicht");
+					p.sendMessage(Chat.PREFIX + "Â§cDas Team existiert nicht");
 					return true;
 				}
 				if(team.getFight() != null) {
-					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
+					p.sendMessage(Chat.PREFIX + "Â§cDu kannst ein Team nicht bearbeiten wÃ¤hrend es kÃ¤mpft");
 					return true;
 				}
 				if(team.getTeamName().equals(args[2])) {
-					p.sendMessage(Chat.PREFIX + "§cDas Team heißt bereits so");
+					p.sendMessage(Chat.PREFIX + "Â§cDas Team heiÃŸt bereits so");
 					return true;
 				}
 				Team newTeam = new Team(args[2]);
 				if(newTeam.exists()) {
-					p.sendMessage(Chat.PREFIX + "§cEs gibt bereits ein Team mit diesem Namen");
+					p.sendMessage(Chat.PREFIX + "Â§cEs gibt bereits ein Team mit diesem Namen");
 					return true;
 				}
 				newTeam.setMembers(team.getMembers());
 				newTeam.saveTeam();
 				team.deleteTeam();
-				p.sendMessage(Chat.PREFIX + "§bDas Team §e" + team.getTeamName() + " §bwurde zu §e" + newTeam.getTeamName() + " §bumbenannt");
-				newTeam.sendAllMembers(Chat.PREFIX + "§bDein Team wurde zu §e" + newTeam.getTeamName() + " §bumbenannt");
+				p.sendMessage(Chat.PREFIX + "Â§bDas Team Â§e" + team.getTeamName() + " Â§bwurde zu Â§e" + newTeam.getTeamName() + " Â§bumbenannt");
+				newTeam.sendAllMembers(Chat.PREFIX + "Â§bDein Team wurde zu Â§e" + newTeam.getTeamName() + " Â§bumbenannt");
 				return true;
 			}
 			
 			if(args[0].equalsIgnoreCase("create")) {
 				Team team = new Team(args[1]);
 				if(team.exists()) {
-					p.sendMessage(Chat.PREFIX + "§cEs gibt bereits ein Team mit diesem Namen");
+					p.sendMessage(Chat.PREFIX + "Â§cEs gibt bereits ein Team mit diesem Namen");
 					return true;
 				}
 				for(int i = 2; i < args.length; i++) {
 					OfflinePlayer target = Bukkit.getOfflinePlayer(Methods.getOfflineUUID(args[i]));
 					if(!target.hasPlayedBefore()) {
-						p.sendMessage(Chat.PREFIX + "§6" + target.getName() + " §cwar noch nie online");
+						p.sendMessage(Chat.PREFIX + "Â§6" + target.getName() + " Â§cwar noch nie online");
 						return true;
 					}
 					if(Team.hasTeam(target.getUniqueId().toString())) {
-						p.sendMessage(Chat.PREFIX + "§6" + target.getName() + " §cist bereits im Team §6" + Team.getTeamName(target.getUniqueId().toString()));
+						p.sendMessage(Chat.PREFIX + "Â§6" + target.getName() + " Â§cist bereits im Team Â§6" + Team.getTeamName(target.getUniqueId().toString()));
 						return true;
 					}
 					team.addMember(target.getUniqueId().toString());
 				}
 				team.saveTeam();
-				p.sendMessage(Chat.PREFIX + "§bDas Team §e" + team.getTeamName() + " §bwurde erstellt");
+				p.sendMessage(Chat.PREFIX + "Â§bDas Team Â§e" + team.getTeamName() + " Â§bwurde erstellt");
 				p.playSound(p.getLocation(), Sound.SUCCESSFUL_HIT, 0.5f, 1.0f);
 				for(String uuid : team.getOnlineMembers()) {
 					Player target = Bukkit.getPlayer(UUID.fromString(uuid));
-					target.sendMessage(Chat.PREFIX + "§bDu bist nun im Team §e" + team.getTeamName());
+					target.sendMessage(Chat.PREFIX + "Â§bDu bist nun im Team Â§e" + team.getTeamName());
 					target.playSound(((Player) target).getLocation(), Sound.SUCCESSFUL_HIT, 0.5f, 1.0f);
 				}
 				return true;

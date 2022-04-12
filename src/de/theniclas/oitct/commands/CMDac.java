@@ -24,7 +24,7 @@ public class CMDac implements CommandExecutor {
 			return true;
 		}
 		if(Bukkit.getPluginManager().getPlugin("ClickAndRange") == null) {
-			sender.sendMessage(Chat.PREFIX + "§cDas Plugin ist nicht installiert");
+			sender.sendMessage(Chat.PREFIX + "Â§cDas Plugin ist nicht installiert");
 			return true;
 		}
 		

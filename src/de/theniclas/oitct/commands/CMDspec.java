@@ -24,21 +24,21 @@ public class CMDspec implements CommandExecutor {
 		Player p = (Player) sender;	
 		
 		if(args.length == 0) {
-			p.sendMessage(Chat.PREFIX + "§e/spec <Team>");
+			p.sendMessage(Chat.PREFIX + "Â§e/spec <Team>");
 			return true;
 		}
 		Team spec = Team.getTeam(args[0]);
 		if(spec == null) {
-			p.sendMessage(Chat.PREFIX + "§cDieses Team existiert nicht");
+			p.sendMessage(Chat.PREFIX + "Â§cDieses Team existiert nicht");
 			return true;
 		}
 		if(spec.getFight() == null) {
-			p.sendMessage(Chat.PREFIX + "§cDieses Team kämpft gerade nicht");
+			p.sendMessage(Chat.PREFIX + "Â§cDieses Team kÃ¤mpft gerade nicht");
 			return true;
 		}
 		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
 		if(team != null && team.getFight() != null && team.getFight().getAlive().contains(p)) {
-			p.sendMessage(Chat.PREFIX + "§cDu bist mitten im Kampf");
+			p.sendMessage(Chat.PREFIX + "Â§cDu bist mitten im Kampf");
 			return true;
 		}
 		if(Fight.getSpectatingFight(p) != null) {
@@ -54,7 +54,7 @@ public class CMDspec implements CommandExecutor {
 		Location specSpawn = new Location(world, (x1+x2)/2, world.getHighestBlockYAt((int) (x1+x2)/2, (int) (z1+z2)/2) + 1, (z1+z2)/2);
 		p.teleport(specSpawn);
 		p.setGameMode(GameMode.SPECTATOR);
-		p.sendMessage(Chat.PREFIX + "§aDu schaust nun dem Kampf §e" + spec.getFight().getTeam1().getTeamName() + " §cvs§7. §e" + spec.getFight().getTeam2().getTeamName() + " §azu");
+		p.sendMessage(Chat.PREFIX + "Â§aDu schaust nun dem Kampf Â§e" + spec.getFight().getTeam1().getTeamName() + " Â§cvsÂ§7. Â§e" + spec.getFight().getTeam2().getTeamName() + " Â§azu");
 		
 		return true;
 	}

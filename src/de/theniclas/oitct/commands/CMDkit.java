@@ -11,12 +11,12 @@ import de.theniclas.oitct.utils.Chat;
 public class CMDkit implements CommandExecutor {
 
 	private void printHelp(Player p) {
-		p.sendMessage(Chat.PREFIX + "§8--- §7/§bkit §8---");
-		p.sendMessage(Chat.PREFIX + "§e/kit list");
-		p.sendMessage(Chat.PREFIX + "§e/kit show <Kitname>");
-		p.sendMessage(Chat.PREFIX + "§e/kit add <Kitname>");
-		p.sendMessage(Chat.PREFIX + "§e/kit remove <Kitname>");
-		p.sendMessage(Chat.PREFIX + "§e/kit update <Kitname>");
+		p.sendMessage(Chat.PREFIX + "Â§8--- Â§7/Â§bkit Â§8---");
+		p.sendMessage(Chat.PREFIX + "Â§e/kit list");
+		p.sendMessage(Chat.PREFIX + "Â§e/kit show <Kitname>");
+		p.sendMessage(Chat.PREFIX + "Â§e/kit add <Kitname>");
+		p.sendMessage(Chat.PREFIX + "Â§e/kit remove <Kitname>");
+		p.sendMessage(Chat.PREFIX + "Â§e/kit update <Kitname>");
 	}
 	
 	@Override
@@ -40,12 +40,12 @@ public class CMDkit implements CommandExecutor {
 		
 		if(args[0].equalsIgnoreCase("list")) {
 			if(Kit.getKitList().isEmpty()) {
-				p.sendMessage(Chat.PREFIX + "§bEs gibt noch keine Kits");
+				p.sendMessage(Chat.PREFIX + "Â§bEs gibt noch keine Kits");
 				return true;
 			}
-			p.sendMessage(Chat.PREFIX + "§7--- §bListe aller Kits §7---");
+			p.sendMessage(Chat.PREFIX + "Â§7--- Â§bListe aller Kits Â§7---");
 			for(Kit kit : Kit.getKitList()) {
-				p.sendMessage(Chat.PREFIX + "§7- §d" + kit.getName());
+				p.sendMessage(Chat.PREFIX + "Â§7- Â§d" + kit.getName());
 			}
 			return true;
 		}
@@ -58,45 +58,45 @@ public class CMDkit implements CommandExecutor {
 		if(args[0].equalsIgnoreCase("show")) {
 			Kit kit = Kit.getKit(args[1]);
 			if(kit == null) {
-				p.sendMessage(Chat.PREFIX + "§cDieses Kit gibt es nicht");
+				p.sendMessage(Chat.PREFIX + "Â§cDieses Kit gibt es nicht");
 				return true;
 			}
 			kit.giveKit(p);
-			p.sendMessage(Chat.PREFIX + "§bDu betrachtest das Kit §e" + kit.getName());
+			p.sendMessage(Chat.PREFIX + "Â§bDu betrachtest das Kit Â§e" + kit.getName());
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("add")) {
 			Kit kit = new Kit(args[1], p.getInventory(), p.getInventory().getArmorContents());
 			if(kit.exists()) {
-				p.sendMessage(Chat.PREFIX + "§cDieses Kit gibt es bereits");
+				p.sendMessage(Chat.PREFIX + "Â§cDieses Kit gibt es bereits");
 				return true;
 			}
 			kit.saveKit();
-			p.sendMessage(Chat.PREFIX + "§bDas Kit §e" + kit.getName() + " §bwurde erstellt");
+			p.sendMessage(Chat.PREFIX + "Â§bDas Kit Â§e" + kit.getName() + " Â§bwurde erstellt");
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("remove")) {
 			Kit kit = Kit.getKit(args[1]);
 			if(kit == null) {
-				p.sendMessage(Chat.PREFIX + "§cDieses Kit gibt es nicht");
+				p.sendMessage(Chat.PREFIX + "Â§cDieses Kit gibt es nicht");
 				return true;
 			}
 			kit.deleteKit();
-			p.sendMessage(Chat.PREFIX + "§bDas Kit §e" + kit.getName() + " §bwurde gelöscht");
+			p.sendMessage(Chat.PREFIX + "Â§bDas Kit Â§e" + kit.getName() + " Â§bwurde gelÃ¶scht");
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("update")) {
 			Kit kit = Kit.getKit(args[1]);
 			if(kit == null) {
-				p.sendMessage(Chat.PREFIX + "§cDieses Kit gibt es nicht");
+				p.sendMessage(Chat.PREFIX + "Â§cDieses Kit gibt es nicht");
 				return true;
 			}
 			kit.setInventory(p.getInventory());
 			kit.saveKit();
-			p.sendMessage(Chat.PREFIX + "§bDas Kit §e" + kit.getName() + " §bwurde aktualisiert");
+			p.sendMessage(Chat.PREFIX + "Â§bDas Kit Â§e" + kit.getName() + " Â§bwurde aktualisiert");
 			return true;
 		}
 		printHelp(p);
