@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import de.theniclas.oitct.utils.Data;
-import de.theniclas.oitct.utils.Methods;
+import de.theniclas.oitct.utils.UtilityMethods;
 
 public class Lobby {
 
@@ -22,7 +22,7 @@ public class Lobby {
 	
 	public static void sendToLobby(Player p) {
 		p.setGameMode(GameMode.ADVENTURE);
-		Methods.fullHeal(p);
+		UtilityMethods.fullHeal(p);
 		p.teleport(getSpawn());
 		p.getInventory().setContents(getInventory().getContents());
 		p.getInventory().setArmorContents(null);

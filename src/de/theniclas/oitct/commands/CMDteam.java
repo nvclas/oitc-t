@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 import de.theniclas.oitct.objects.Team;
 import de.theniclas.oitct.utils.Chat;
-import de.theniclas.oitct.utils.Methods;
+import de.theniclas.oitct.utils.UtilityMethods;
 
 public class CMDteam implements CommandExecutor {
 
@@ -77,7 +77,7 @@ public class CMDteam implements CommandExecutor {
 		if(args.length == 2) {
 
 			if(args[0].equalsIgnoreCase("create")) {
-				OfflinePlayer target = Bukkit.getOfflinePlayer(Methods.getOfflineUUID(args[1]));
+				OfflinePlayer target = Bukkit.getOfflinePlayer(UtilityMethods.getOfflineUUID(args[1]));
 				if(!target.hasPlayedBefore()) {
 					p.sendMessage(Chat.PREFIX + "§cDieser Spieler war noch nie online");
 					return true;
@@ -134,7 +134,7 @@ public class CMDteam implements CommandExecutor {
 					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
 					return true;
 				}
-				OfflinePlayer target = Bukkit.getOfflinePlayer(Methods.getOfflineUUID(args[2]));
+				OfflinePlayer target = Bukkit.getOfflinePlayer(UtilityMethods.getOfflineUUID(args[2]));
 				if(!target.hasPlayedBefore()) {
 					p.sendMessage(Chat.PREFIX + "§cDieser Spieler war noch nie online");
 					return true;
@@ -165,7 +165,7 @@ public class CMDteam implements CommandExecutor {
 					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
 					return true;
 				}
-				if(!Methods.isNumeric(args[2]) || Integer.parseInt(args[2]) < 0) {
+				if(!UtilityMethods.isNumeric(args[2]) || Integer.parseInt(args[2]) < 0) {
 					p.sendMessage(Chat.PREFIX + "§cDu musst eine ganze Zahl größer 0 angeben");
 					return true;
 				}
@@ -189,7 +189,7 @@ public class CMDteam implements CommandExecutor {
 					p.sendMessage(Chat.PREFIX + "§cDu kannst ein Team nicht bearbeiten während es kämpft");
 					return true;
 				}
-				OfflinePlayer target = Bukkit.getOfflinePlayer(Methods.getOfflineUUID(args[2]));
+				OfflinePlayer target = Bukkit.getOfflinePlayer(UtilityMethods.getOfflineUUID(args[2]));
 				if(!target.hasPlayedBefore()) {
 					p.sendMessage(Chat.PREFIX + "§cDieser Spieler war noch nie online");
 					return true;
@@ -239,9 +239,9 @@ public class CMDteam implements CommandExecutor {
 					return true;
 				}
 				for(int i = 2; i < args.length; i++) {
-					OfflinePlayer target = Bukkit.getOfflinePlayer(Methods.getOfflineUUID(args[i]));
+					OfflinePlayer target = Bukkit.getOfflinePlayer(UtilityMethods.getOfflineUUID(args[i]));
 					if(!target.hasPlayedBefore()) {
-						p.sendMessage(Chat.PREFIX + "§6" + target.getName() + " §cwar noch nie online");
+						p.sendMessage(Chat.PREFIX + "§6" + args[i] + " §cwar noch nie online");
 						return true;
 					}
 					if(Team.hasTeam(target.getUniqueId().toString())) {

@@ -23,7 +23,10 @@ import de.theniclas.oitct.listeners.PlayerJoinHandler;
 import de.theniclas.oitct.listeners.PlayerMoveHandler;
 import de.theniclas.oitct.listeners.PlayerPickupItemHandler;
 import de.theniclas.oitct.listeners.PlayerQuitHandler;
-import de.theniclas.oitct.utils.Data;
+import de.theniclas.oitct.objects.Kit;
+import de.theniclas.oitct.objects.Lobby;
+import de.theniclas.oitct.objects.Map;
+import de.theniclas.oitct.objects.Team;
 
 public class Main extends JavaPlugin {
 
@@ -59,10 +62,10 @@ public class Main extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new BlockBreakHandler(), this);
 		
 		//Yaml configs
-		new Data("tree.yml").createFile();
-		new Data("maps.yml").createFile();
-		new Data("kits.yml").createFile();
-		new Data("lobby.yml").createFile();
+		Team.TEAMS.createFile();
+		Map.MAPS.createFile();
+		Kit.KITS.createFile();
+		Lobby.LOBBY.createFile();
 
 		System.out.println("OITC-Turnierplugin läuft!");
 	}

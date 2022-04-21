@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import de.theniclas.oitct.objects.Kit;
@@ -11,7 +12,10 @@ import de.theniclas.oitct.objects.Map;
 import de.theniclas.oitct.objects.Team;
 import de.theniclas.oitct.objects.fight.Fight;
 import de.theniclas.oitct.utils.Chat;
-import de.theniclas.oitct.utils.Methods;
+import de.theniclas.oitct.utils.UtilityMethods;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 
 public class CMDstartfight implements CommandExecutor {
 
@@ -50,7 +54,7 @@ public class CMDstartfight implements CommandExecutor {
 		Kit kit = Kit.getKit(args[3]);
 		int lives = 0;
 		if(args.length >= 5) {
-			if(!Methods.isNumeric(args[4]) || Integer.parseInt(args[4]) <= 0) {
+			if(!UtilityMethods.isNumeric(args[4]) || Integer.parseInt(args[4]) <= 0) {
 				p.sendMessage(Chat.PREFIX + "§cDu musst eine ganze Zahl größer 0 angeben");
 				return true;
 			}
@@ -82,6 +86,13 @@ public class CMDstartfight implements CommandExecutor {
 			return true;
 		}
 		
+		for(Fight fight : Fight.getFights().values()) {
+			if(fight.getMap().getName().equals(map.getName())) {
+				p.sendMessage(Chat.PREFIX + "§cDiese Map ist bereits in Verwendung, ein zukünftiges Update könnte dies beheben");
+				return true;
+			}
+		}
+		
 		if(map.getTeam1Spawns().size() < team1.getOnlineMembers().size()) {
 			p.sendMessage(Chat.PREFIX + "§cDie Map hat nicht genug Spawnpunkte f§r §6" + team1.getTeamName() + " §c, es fehlen §6" + (team1.getMembers().size() - map.getTeam1Spawns().size()));
 			return true;
@@ -102,8 +113,10 @@ public class CMDstartfight implements CommandExecutor {
 		fight.start();
 		for(Player all : Bukkit.getOnlinePlayers()) {
 			all.sendMessage(Chat.PREFIX + "§bDer Kampf §e" + team1.getTeamName() + " §cvs§7. §e" + team2.getTeamName() + " §bwurde gestartet");
+			IChatBaseComponent comp = ChatSerializer.a("[\"\",{\"text\":\"" + Chat.PREFIX + "§bKlicke hier zum Zuschauen\"},{\"text\":\": \"},{\"text\":\"§a[KLICK]\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/spec " + team1.getTeamName() + "\"}}]");
+			PacketPlayOutChat chat = new PacketPlayOutChat(comp);
+			((CraftPlayer) all).getHandle().playerConnection.sendPacket(chat);
 		}
-		
 		return true;
 	}
 

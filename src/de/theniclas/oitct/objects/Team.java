@@ -15,7 +15,7 @@ public class Team {
 	private String teamName;
 	private int points;
 	private List<String> members;
-	public static final Data TREE = new Data("tree.yml");
+	public static final Data TEAMS = new Data("teams.yml");
 
 	public Team(String teamName, List<String> members) {
 		this.teamName = teamName;
@@ -28,17 +28,17 @@ public class Team {
 	}
 
 	public void saveTeam() {
-		TREE.getConfig().set("Team." + teamName + ".Members", members);
-		TREE.saveFile();
+		TEAMS.getConfig().set("Team." + teamName + ".Members", members);
+		TEAMS.saveFile();
 	}
 
 	public void deleteTeam() {
-		TREE.getConfig().set("Team." + teamName, null);
-		TREE.saveFile();
+		TEAMS.getConfig().set("Team." + teamName, null);
+		TEAMS.saveFile();
 	}
 
 	public boolean exists() {
-		if(TREE.getConfig().get("Team." + teamName) != null) {
+		if(TEAMS.getConfig().get("Team." + teamName) != null) {
 			return true;
 		}
 		return false;
@@ -52,7 +52,7 @@ public class Team {
 	}
 	
 	public void fillMembers() {
-		this.members = TREE.getConfig().getStringList("Team." + teamName + ".Members");
+		this.members = TEAMS.getConfig().getStringList("Team." + teamName + ".Members");
 	}
 
 	public void setMembers(List<String> members) {
@@ -108,10 +108,10 @@ public class Team {
 	}
 	
 	public static String getTeamName(String uuid) {
-		if(TREE.getConfig().getConfigurationSection("Team") == null)
+		if(TEAMS.getConfig().getConfigurationSection("Team") == null)
 			return null;
-		for(String teamName : TREE.getConfig().getConfigurationSection("Team").getKeys(false)) {
-			if(TREE.getConfig().getList("Team." + teamName + ".Members").contains(uuid))
+		for(String teamName : TEAMS.getConfig().getConfigurationSection("Team").getKeys(false)) {
+			if(TEAMS.getConfig().getList("Team." + teamName + ".Members").contains(uuid))
 				return teamName;
 		}
 		return null;
@@ -128,7 +128,7 @@ public class Team {
 		Team team = new Team(name);
 		if(team.exists()) {
 			team.fillMembers();
-			team.setPoints(TREE.getConfig().getInt("Team." + team.getTeamName() + ".Points"));
+			team.setPoints(TEAMS.getConfig().getInt("Team." + team.getTeamName() + ".Points"));
 			return team;
 		}
 		return null;
@@ -136,10 +136,10 @@ public class Team {
 	
 	public static List<Team> getTeamList() {
 		List<Team> teams = new ArrayList<>();
-		if(TREE.getConfig().getConfigurationSection("Team") == null || TREE.getConfig().getConfigurationSection("Team").getKeys(false).isEmpty()) {
+		if(TEAMS.getConfig().getConfigurationSection("Team") == null || TEAMS.getConfig().getConfigurationSection("Team").getKeys(false).isEmpty()) {
 			return teams;
 		}
-		for(String teamName : TREE.getConfig().getConfigurationSection("Team").getKeys(false)) {
+		for(String teamName : TEAMS.getConfig().getConfigurationSection("Team").getKeys(false)) {
 			teams.add(getTeam(teamName));
 		}
 		teams.sort((o1, o2) -> o1.getPoints() < o2.getPoints() ? 1 : o1.getPoints() == o2.getPoints() ? 0 : -1);
@@ -152,14 +152,14 @@ public class Team {
 	
 	public void setPoints(int points) {
 		this.points = points;
-		TREE.getConfig().set("Team." + teamName + ".Points", this.points);
-		TREE.saveFile();
+		TEAMS.getConfig().set("Team." + teamName + ".Points", this.points);
+		TEAMS.saveFile();
 	}
 	
 	public void addPoints(int points) {
 		this.points += points;
-		TREE.getConfig().set("Team." + teamName + ".Points", this.points);
-		TREE.saveFile();
+		TEAMS.getConfig().set("Team." + teamName + ".Points", this.points);
+		TEAMS.saveFile();
 	}
 
 }

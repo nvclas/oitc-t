@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-public class Methods {
+public class UtilityMethods {
 
 	public static UUID getOfflineUUID(String name) {
 		for(OfflinePlayer op : Bukkit.getOfflinePlayers()) {

@@ -22,7 +22,7 @@ import de.theniclas.oitct.objects.Lobby;
 import de.theniclas.oitct.objects.Map;
 import de.theniclas.oitct.objects.Team;
 import de.theniclas.oitct.utils.Chat;
-import de.theniclas.oitct.utils.Methods;
+import de.theniclas.oitct.utils.UtilityMethods;
 import de.theniclas.oitct.utils.Title;
 
 public class Fight {
@@ -194,7 +194,6 @@ public class Fight {
 
 	public void end() {
 		setState(State.ENDING);
-		winner.addPoints(1);
 		for(Player p : witnesses) {
 			if(getWinner().getMembers().contains(p.getUniqueId().toString())) {
 				Title.sendTitle(p, "§2GEWONNEN", 20, 60, 20);
@@ -245,7 +244,7 @@ public class Fight {
 					p.teleport(map.getTeam2Spawns().get(Team.getTeam(Team.getTeamName(p.getUniqueId().toString())).getOnlineMembers().indexOf(p.getUniqueId().toString())));
 				livesMap.put(p, livesMap.get(p) - 1);
 				p.setLevel(livesMap.get(p));
-				Methods.fullHeal(p);
+				UtilityMethods.fullHeal(p);
 				p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1 * 20, 1));
 				return;
 			}
@@ -279,11 +278,15 @@ public class Fight {
 		}
 		if(!alive.stream().anyMatch(element -> team1.getMembers().contains(element.getUniqueId().toString()))) {
 			setWinner(team2);
+			team2.addPoints(1);
+			team1.addPoints(-1);
 			end();
 			return;
 		}
 		if(!alive.stream().anyMatch(element -> team2.getMembers().contains(element.getUniqueId().toString()))) {
 			setWinner(team1);
+			team1.addPoints(1);
+			team2.addPoints(-1);
 			end();
 			return;
 		}
