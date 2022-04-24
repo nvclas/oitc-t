@@ -1,6 +1,8 @@
 package de.theniclas.oitct.listeners;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -14,10 +16,8 @@ public class EntityDamageByEntityHandler implements Listener {
 	public void handleEntityDamageByEntity(EntityDamageByEntityEvent e) {
 		
 		if(!(e.getEntity() instanceof Player)) return;
-		if(!(e.getDamager() instanceof Player)) return;
 		
 		Player p = (Player) e.getEntity();
-		Player killer = (Player) e.getDamager();
 		
 		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
 		
@@ -28,7 +28,11 @@ public class EntityDamageByEntityHandler implements Listener {
 		if(e.getFinalDamage() >= p.getHealth()) {
 			e.setCancelled(true);
 			for(Player witness : team.getFight().getWitnesses()) {
-				witness.sendMessage(Chat.PREFIX + "§e" + p.getName() + " §bwurde von §e" + killer.getName() + " §bgetötet");
+				if(!(e.getDamager() instanceof Projectile)) {
+					witness.sendMessage(Chat.PREFIX + "§e" + p.getName() + " §bwurde von §e" + e.getDamager().getName() + " §bgetötet");
+					continue;
+				}
+				witness.sendMessage(Chat.PREFIX + "§e" + p.getName() + " §bwurde von §e" + ((Entity) ((Projectile) e.getDamager()).getShooter()).getName() + " §bgetötet");
 			}
 			team.getFight().kill(p);
 			return;

@@ -67,7 +67,7 @@ public class Main extends JavaPlugin {
 		Kit.KITS.createFile();
 		Lobby.LOBBY.createFile();
 
-		System.out.println("OITC-Turnierplugin läuft!");
+		Bukkit.getConsoleSender().sendMessage("§5OITC-Turnierplugin geladen");
 	}
 
 	public static Main getPlugin() {

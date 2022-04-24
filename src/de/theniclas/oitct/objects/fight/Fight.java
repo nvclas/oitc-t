@@ -245,6 +245,7 @@ public class Fight {
 				livesMap.put(p, livesMap.get(p) - 1);
 				p.setLevel(livesMap.get(p));
 				UtilityMethods.fullHeal(p);
+				kit.giveKit(p);
 				p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1 * 20, 1));
 				return;
 			}

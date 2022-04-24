@@ -33,7 +33,7 @@ public class EntityDamageHandler implements Listener {
 		}
 		if(e.getFinalDamage() >= p.getHealth()) {
 			e.setCancelled(true);
-			if(e.getCause() != DamageCause.ENTITY_ATTACK) {
+			if(e.getCause() != DamageCause.PROJECTILE && e.getCause() != DamageCause.ENTITY_ATTACK) {
 				for(Player witness : team.getFight().getWitnesses()) {
 					witness.sendMessage(Chat.PREFIX + "§e" + p.getName() + " §bist gestorben");
 				}
