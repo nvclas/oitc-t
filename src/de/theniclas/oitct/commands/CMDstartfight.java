@@ -86,13 +86,6 @@ public class CMDstartfight implements CommandExecutor {
 			return true;
 		}
 		
-		for(Fight fight : Fight.getFights().values()) {
-			if(fight.getMap().getName().equals(map.getName())) {
-				p.sendMessage(Chat.PREFIX + "§cDiese Map ist bereits in Verwendung, ein zukünftiges Update könnte dies beheben");
-				return true;
-			}
-		}
-		
 		if(map.getTeam1Spawns().size() < team1.getOnlineMembers().size()) {
 			p.sendMessage(Chat.PREFIX + "§cDie Map hat nicht genug Spawnpunkte f§r §6" + team1.getTeamName() + " §c, es fehlen §6" + (team1.getMembers().size() - map.getTeam1Spawns().size()));
 			return true;
