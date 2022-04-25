@@ -21,8 +21,8 @@ import de.theniclas.oitct.objects.Kit;
 import de.theniclas.oitct.objects.Lobby;
 import de.theniclas.oitct.objects.Map;
 import de.theniclas.oitct.objects.Team;
-import de.theniclas.oitct.objects.TempWorld;
 import de.theniclas.oitct.utils.Chat;
+import de.theniclas.oitct.utils.TempWorld;
 import de.theniclas.oitct.utils.Title;
 import de.theniclas.oitct.utils.UtilityMethods;
 

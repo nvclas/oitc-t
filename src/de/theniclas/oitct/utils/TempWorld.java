@@ -1,4 +1,4 @@
-package de.theniclas.oitct.objects;
+package de.theniclas.oitct.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
+import de.theniclas.oitct.objects.Map;
 import de.theniclas.oitct.objects.fight.Fight;
 
 public class TempWorld {
