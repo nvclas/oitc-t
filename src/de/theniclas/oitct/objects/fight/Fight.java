@@ -21,9 +21,10 @@ import de.theniclas.oitct.objects.Kit;
 import de.theniclas.oitct.objects.Lobby;
 import de.theniclas.oitct.objects.Map;
 import de.theniclas.oitct.objects.Team;
+import de.theniclas.oitct.objects.TempWorld;
 import de.theniclas.oitct.utils.Chat;
-import de.theniclas.oitct.utils.UtilityMethods;
 import de.theniclas.oitct.utils.Title;
+import de.theniclas.oitct.utils.UtilityMethods;
 
 public class Fight {
 
@@ -67,6 +68,7 @@ public class Fight {
 
 	public void start() {
 		setState(State.STARTING);
+		map.setWorld(TempWorld.getTempWorld(map, this));
 		for(String uuid : team1.getOnlineMembers()) {
 			Player p = Bukkit.getPlayer(UUID.fromString(uuid));
 			p.getPlayer().spigot().respawn();
@@ -226,6 +228,7 @@ public class Fight {
 						spectators.remove(p);
 					}
 				}
+				TempWorld.deleteTempWorld(map, Fight.this);
 				fights.remove(team1.getTeamName());
 				fights.remove(team2.getTeamName());
 				witnesses.clear();

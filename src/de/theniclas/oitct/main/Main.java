@@ -11,6 +11,7 @@ import de.theniclas.oitct.commands.CMDping;
 import de.theniclas.oitct.commands.CMDspec;
 import de.theniclas.oitct.commands.CMDstartfight;
 import de.theniclas.oitct.commands.CMDteam;
+import de.theniclas.oitct.listeners.AsyncPlayerChatHandler;
 import de.theniclas.oitct.listeners.BlockBreakHandler;
 import de.theniclas.oitct.listeners.BlockPlaceHandler;
 import de.theniclas.oitct.listeners.EntityDamageByEntityHandler;
@@ -60,6 +61,7 @@ public class Main extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new FoodLevelChangeHandler(), this);
 		Bukkit.getPluginManager().registerEvents(new BlockPlaceHandler(), this);
 		Bukkit.getPluginManager().registerEvents(new BlockBreakHandler(), this);
+		Bukkit.getPluginManager().registerEvents(new AsyncPlayerChatHandler(), this);
 		
 		//Yaml configs
 		Team.TEAMS.createFile();

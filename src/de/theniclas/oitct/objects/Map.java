@@ -58,18 +58,26 @@ public class Map {
 	}
 
 	public void addTeam1Spawn(Location location) {
+		location.setWorld(world);
 		team1Spawns.add(location);
 	}
 
 	public void addTeam2Spawn(Location location) {
+		location.setWorld(world);
 		team2Spawns.add(location);
 	}
 
 	public List<Location> getTeam1Spawns() {
+		for(Location loc : team1Spawns) {
+			loc.setWorld(world);
+		}
 		return team1Spawns;
 	}
 
 	public List<Location> getTeam2Spawns() {
+		for(Location loc : team2Spawns) {
+			loc.setWorld(world);
+		}
 		return team2Spawns;
 	}
 
@@ -81,7 +89,7 @@ public class Map {
 		return name;
 	}
 
-	private void setWorld(World world) {
+	public void setWorld(World world) {
 		this.world = world;
 	}
 
