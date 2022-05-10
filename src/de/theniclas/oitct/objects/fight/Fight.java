@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -213,9 +212,6 @@ public class Fight {
 			Title.sendSubtitle(p, "§cViel Glück beim nächsten Mal", 20, 60, 20);
 			p.playSound(p.getLocation(), Sound.IRONGOLEM_DEATH, 1.0f, 1.0f);
 			continue;
-		}
-		for(Block block : placedBlocks) {
-			block.setType(Material.AIR);
 		}
 		new BukkitRunnable() {
 

@@ -21,7 +21,7 @@ public class EntityDamageByEntityHandler implements Listener {
 		
 		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
 		
-		if(team == null) {
+		if(team == null || team.getFight() == null) {
 			return;
 		}
 		
