@@ -67,7 +67,7 @@ public class Fight {
 
 	public void start() {
 		setState(State.STARTING);
-		map.setWorld(TempWorld.getTempWorld(map, this));
+		map.setWorld(TempWorld.getTempWorld(this));
 		for(String uuid : team1.getOnlineMembers()) {
 			Player p = Bukkit.getPlayer(UUID.fromString(uuid));
 			p.getPlayer().spigot().respawn();
@@ -224,7 +224,7 @@ public class Fight {
 						spectators.remove(p);
 					}
 				}
-				TempWorld.deleteTempWorld(map, Fight.this);
+				TempWorld.deleteTempWorld(Fight.this);
 				fights.remove(team1.getTeamName());
 				fights.remove(team2.getTeamName());
 				witnesses.clear();

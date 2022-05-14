@@ -25,6 +25,23 @@ public class EntityDamageByEntityHandler implements Listener {
 			return;
 		}
 		
+		if(e.getDamager() instanceof Player) {
+			Player damager = (Player) e.getDamager();
+			if(team.getTeamName().equals(Team.getTeamName(damager.getUniqueId().toString()))) {
+				e.setDamage(0);
+			}
+			e.setCancelled(false);
+			return;
+		}
+		if(e.getDamager() instanceof Projectile) {
+			Projectile damager = (Projectile) e.getDamager();
+			if(team.getTeamName().equals(Team.getTeamName(((Player) damager.getShooter()).getUniqueId().toString()))) {
+				e.setDamage(0);
+			}
+			e.setCancelled(false);
+			return;
+		}
+		
 		if(e.getFinalDamage() >= p.getHealth()) {
 			e.setCancelled(true);
 			for(Player witness : team.getFight().getWitnesses()) {
