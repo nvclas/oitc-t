@@ -1,6 +1,6 @@
 main: de.theniclas.oitct.main.Main
 name: OITC-T
-version: 0.9
+version: 1.0
 author: nvclas
 commands:
    team:
@@ -14,3 +14,5 @@ commands:
    lobby:
       aliases: [l, hub, leave]
    ping:
+   teamchat:
+      aliases: [tc]

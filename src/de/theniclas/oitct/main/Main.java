@@ -11,6 +11,7 @@ import de.theniclas.oitct.commands.CMDping;
 import de.theniclas.oitct.commands.CMDspec;
 import de.theniclas.oitct.commands.CMDstartfight;
 import de.theniclas.oitct.commands.CMDteam;
+import de.theniclas.oitct.commands.CMDteamchat;
 import de.theniclas.oitct.listeners.AsyncPlayerChatHandler;
 import de.theniclas.oitct.listeners.BlockBreakHandler;
 import de.theniclas.oitct.listeners.BlockPlaceHandler;
@@ -47,6 +48,7 @@ public class Main extends JavaPlugin {
 		this.getCommand("kit").setExecutor(new CMDkit());
 		this.getCommand("lobby").setExecutor(new CMDlobby());
 		this.getCommand("ping").setExecutor(new CMDping());
+		this.getCommand("teamchat").setExecutor(new CMDteamchat());
 
 		//Events
 		Bukkit.getPluginManager().registerEvents(new PlayerMoveHandler(), this);
@@ -68,8 +70,6 @@ public class Main extends JavaPlugin {
 		Map.MAPS.createFile();
 		Kit.KITS.createFile();
 		Lobby.LOBBY.createFile();
-
-		Bukkit.getConsoleSender().sendMessage("§5OITC-Turnierplugin geladen");
 	}
 
 	public static Main getPlugin() {
