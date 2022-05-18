@@ -14,34 +14,35 @@ public class EntityDamageByEntityHandler implements Listener {
 
 	@EventHandler
 	public void handleEntityDamageByEntity(EntityDamageByEntityEvent e) {
-		
-		if(!(e.getEntity() instanceof Player)) return;
-		
+
+		if(!(e.getEntity() instanceof Player))
+			return;
+
 		Player p = (Player) e.getEntity();
-		
+
 		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
-		
+
 		if(team == null || team.getFight() == null) {
 			return;
 		}
-		
+
 		if(e.getDamager() instanceof Player) {
 			Player damager = (Player) e.getDamager();
 			if(team.getTeamName().equals(Team.getTeamName(damager.getUniqueId().toString()))) {
 				e.setDamage(0);
+				e.setCancelled(false);
+				return;
 			}
-			e.setCancelled(false);
-			return;
 		}
 		if(e.getDamager() instanceof Projectile) {
 			Projectile damager = (Projectile) e.getDamager();
 			if(team.getTeamName().equals(Team.getTeamName(((Player) damager.getShooter()).getUniqueId().toString()))) {
 				e.setDamage(0);
+				e.setCancelled(false);
+				return;
 			}
-			e.setCancelled(false);
-			return;
 		}
-		
+
 		if(e.getFinalDamage() >= p.getHealth()) {
 			e.setCancelled(true);
 			for(Player witness : team.getFight().getWitnesses()) {
@@ -54,6 +55,6 @@ public class EntityDamageByEntityHandler implements Listener {
 			team.getFight().kill(p);
 			return;
 		}
-		
+
 	}
 }

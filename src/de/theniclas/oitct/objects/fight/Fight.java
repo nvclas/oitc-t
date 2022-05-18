@@ -71,6 +71,7 @@ public class Fight {
 		for(String uuid : team1.getOnlineMembers()) {
 			Player p = Bukkit.getPlayer(UUID.fromString(uuid));
 			p.getPlayer().spigot().respawn();
+			UtilityMethods.fullHeal(p);
 			alive.add(p.getPlayer());
 			witnesses.add(p.getPlayer());
 			if(livesMap != null) {
@@ -84,6 +85,7 @@ public class Fight {
 		for(String uuid : team2.getOnlineMembers()) {
 			Player p = Bukkit.getPlayer(UUID.fromString(uuid));
 			p.getPlayer().spigot().respawn();
+			UtilityMethods.fullHeal(p);
 			alive.add(p.getPlayer());
 			witnesses.add(p.getPlayer());
 			if(livesMap != null) {
