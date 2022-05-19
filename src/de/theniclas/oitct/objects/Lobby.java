@@ -20,7 +20,18 @@ public class Lobby {
 	private static List<Player> players;
 	public static final Data LOBBY = new Data("lobby.yml");
 	
-	public static void sendToLobby(Player p) {
+	private Lobby() {
+	}
+	
+	private static class LobbyHolder {
+		private static final Lobby LOBBY = new Lobby();
+	}
+	
+	public static Lobby getLobby() {
+		return LobbyHolder.LOBBY;
+	}
+	
+	public void sendToLobby(Player p) {
 		p.setGameMode(GameMode.ADVENTURE);
 		UtilityMethods.fullHeal(p);
 		p.teleport(getSpawn());
@@ -31,28 +42,28 @@ public class Lobby {
 		}
 	}
 	
-	public static List<Player> getPlayers() {
+	public List<Player> getPlayers() {
 		return players;
 	}
 	
-	public static Location getSpawn() {
+	public Location getSpawn() {
 		World world = Bukkit.getWorld(LOBBY.getConfig().getString("Lobby.World"));
 		return Map.getLocationFromString(world, LOBBY.getConfig().getString("Lobby.Spawn"));
 	}
 	
-	public static Inventory getInventory() {
+	public Inventory getInventory() {
 		Inventory inv = Bukkit.createInventory(null, 4*9);
 		inv.setContents(LOBBY.getConfig().getList("Lobby.Inventory").toArray(new ItemStack[0]));
 		return inv;
 	}
 	
-	public static void setSpawn(Location spawn) {
+	public void setSpawn(Location spawn) {
 		LOBBY.getConfig().set("Lobby.Spawn", Map.getStringFromLocation(spawn));
 		LOBBY.getConfig().set("Lobby.World", spawn.getWorld().getName());
 		LOBBY.saveFile();
 	}
 	
-	public static void setInventory(Inventory inventory) {
+	public void setInventory(Inventory inventory) {
 		List<ItemStack> itemList = new ArrayList<>();
 		for(ItemStack is : inventory.getContents()) {
 			if(is == null) is = new ItemStack(Material.AIR);
