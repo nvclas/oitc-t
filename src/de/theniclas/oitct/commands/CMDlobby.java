@@ -33,18 +33,18 @@ public class CMDlobby implements CommandExecutor {
 				p.sendMessage(Chat.PREFIX + "§cDu bist mitten im Kampf");
 				return true;
 			}
-			Lobby.sendToLobby(p);
+			Lobby.getLobby().sendToLobby(p);
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("setspawn")) {
-			Lobby.setSpawn(p.getLocation());
+			Lobby.getLobby().setSpawn(p.getLocation());
 			p.sendMessage(Chat.PREFIX + "§bDer Lobbyspawn wurde gesetzt");
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("setinv")) {
-			Lobby.setInventory(p.getInventory());
+			Lobby.getLobby().setInventory(p.getInventory());
 			p.sendMessage(Chat.PREFIX + "§bDas Lobbyinventar wurde gesetzt");
 			return true;
 		}

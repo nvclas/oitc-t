@@ -22,7 +22,7 @@ public class PlayerChangedWorldHandler implements Listener {
 		if(team == null || team.getFight() == null) {
 			return;
 		}
-		if(team.getFight().getMap().getWorld() == p.getWorld() || Lobby.getSpawn().getWorld() == p.getWorld()) {
+		if(team.getFight().getMap().getWorld() == p.getWorld() || Lobby.getLobby().getSpawn().getWorld() == p.getWorld()) {
 			return;
 		}
 		if(team.getFight().getAlive().contains(p)) {

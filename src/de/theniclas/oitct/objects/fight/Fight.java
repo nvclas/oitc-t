@@ -221,7 +221,7 @@ public class Fight {
 			public void run() {
 				for(Player p : witnesses) {
 					p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-					Lobby.sendToLobby(p);
+					Lobby.getLobby().sendToLobby(p);
 					if(spectators.containsKey(p)) {
 						spectators.remove(p);
 					}

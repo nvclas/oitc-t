@@ -13,7 +13,7 @@ public class PlayerJoinHandler implements Listener {
 	public void handlePlayerJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
 		e.setJoinMessage("");
-		Lobby.sendToLobby(p);
+		Lobby.getLobby().sendToLobby(p);
 	}
 	
 }
