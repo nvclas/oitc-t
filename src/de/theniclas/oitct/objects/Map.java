@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import de.theniclas.oitct.main.Main;
 import de.theniclas.oitct.utils.Data;
 
 public class Map {
@@ -15,7 +16,7 @@ public class Map {
 	private List<Location> team1Spawns;
 	private List<Location> team2Spawns;
 	private World world;
-	public static final Data MAPS = new Data("maps.yml");
+	public static final Data MAPS = new Data(Main.getPlugin(), "maps.yml");
 
 	private Map(String name) {
 		this.name = name;
@@ -99,11 +100,15 @@ public class Map {
 		}
 		String[] parts = s.split(", ");
 		if(parts.length == 4) {
-			float x = Float.parseFloat(parts[0]);
-			float y = Float.parseFloat(parts[1]);
-			float z = Float.parseFloat(parts[2]);
-			float yaw = Float.parseFloat(parts[3]);
-			return new Location(w, x, y, z, yaw, 0);
+			try {
+				float x = Float.parseFloat(parts[0]);
+				float y = Float.parseFloat(parts[1]);
+				float z = Float.parseFloat(parts[2]);
+				float yaw = Float.parseFloat(parts[3]);
+				return new Location(w, x, y, z, yaw, 0);
+			} catch(NumberFormatException e) {
+				System.out.println("String \"" + s + "\" ist keine Location");
+			}
 		}
 		return null;
 	}

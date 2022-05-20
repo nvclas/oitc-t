@@ -13,7 +13,7 @@ public class AsyncPlayerChatHandler implements Listener {
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
-		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
+		Team team = Team.getTeam(p.getUniqueId());
 		e.setFormat("");
 		for(Player all : Bukkit.getOnlinePlayers()) {
 			if(team == null || team.getFight() == null && Fight.getSpectatingFight(p) == null)

@@ -28,7 +28,7 @@ public class CMDlobby implements CommandExecutor {
 		
 		if(!p.hasPermission("oitct.setup") || args.length == 0) {
 			
-			Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
+			Team team = Team.getTeam(p.getUniqueId());
 			if(team != null && team.getFight() != null && team.getFight().getAlive().contains(p)) {
 				p.sendMessage(Chat.PREFIX + "§cDu bist mitten im Kampf");
 				return true;

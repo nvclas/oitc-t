@@ -5,19 +5,19 @@ import java.io.IOException;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import de.theniclas.oitct.main.Main;
 
 public class Data {
 
-	private final String path = "plugins/OITC-T/";
 	private String fileName;
 	private File file;
 	private FileConfiguration config;
 
-	public Data(String fileName) {
-		this.fileName = fileName.replace(".yml", "") + ".yml";
-		this.file = new File(path + fileName);
+	public Data(JavaPlugin plugin, String fileName) {
+		this.fileName = fileName;
+		this.file = new File(plugin.getDataFolder() + "/" + fileName);
 		this.config = YamlConfiguration.loadConfiguration(file);
 	}
 

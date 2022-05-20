@@ -17,7 +17,7 @@ public class PlayerQuitHandler implements Listener {
 		
 		Player p = e.getPlayer();
 		
-		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
+		Team team = Team.getTeam(p.getUniqueId());
 		
 		if(Fight.getSpectatingFight(p) != null) {
 			Fight.getSpectatingFight(p).removeSpectator(p);

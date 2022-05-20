@@ -12,13 +12,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import de.theniclas.oitct.main.Main;
 import de.theniclas.oitct.utils.Data;
 import de.theniclas.oitct.utils.UtilityMethods;
 
 public class Lobby {
-
-	private static List<Player> players;
-	public static final Data LOBBY = new Data("lobby.yml");
+	
+	private Location spawn;
+	private Inventory inv;
+	
+	public static final Data LOBBY = new Data(Main.getPlugin(), "lobby.yml");
 	
 	private Lobby() {
 	}
@@ -42,18 +45,19 @@ public class Lobby {
 		}
 	}
 	
-	public List<Player> getPlayers() {
-		return players;
-	}
-	
 	public Location getSpawn() {
-		World world = Bukkit.getWorld(LOBBY.getConfig().getString("Lobby.World"));
-		return Map.getLocationFromString(world, LOBBY.getConfig().getString("Lobby.Spawn"));
+		if(spawn == null) {
+			World world = Bukkit.getWorld(LOBBY.getConfig().getString("Lobby.World"));
+			spawn = Map.getLocationFromString(world, LOBBY.getConfig().getString("Lobby.Spawn"));
+		}
+		return spawn;
 	}
 	
 	public Inventory getInventory() {
-		Inventory inv = Bukkit.createInventory(null, 4*9);
-		inv.setContents(LOBBY.getConfig().getList("Lobby.Inventory").toArray(new ItemStack[0]));
+		if(inv == null) {
+			inv = Bukkit.createInventory(null, 4*9);
+			inv.setContents(LOBBY.getConfig().getList("Lobby.Inventory").toArray(new ItemStack[0]));
+		}
 		return inv;
 	}
 	

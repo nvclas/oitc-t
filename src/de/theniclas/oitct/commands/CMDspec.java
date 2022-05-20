@@ -36,7 +36,7 @@ public class CMDspec implements CommandExecutor {
 			p.sendMessage(Chat.PREFIX + "§cDieses Team kämpft gerade nicht");
 			return true;
 		}
-		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
+		Team team = Team.getTeam(p.getUniqueId());
 		if(team != null && team.getFight() != null && team.getFight().getAlive().contains(p)) {
 			p.sendMessage(Chat.PREFIX + "§cDu bist mitten im Kampf");
 			return true;

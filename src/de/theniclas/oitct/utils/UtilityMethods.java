@@ -33,6 +33,8 @@ public class UtilityMethods {
 		p.getActivePotionEffects().clear();
 		p.setFireTicks(0);
 		p.setFallDistance(0);
+		p.setLevel(0);
+		p.setExp(0);
 	}
 	
 }

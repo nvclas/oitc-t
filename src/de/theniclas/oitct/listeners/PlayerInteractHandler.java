@@ -14,7 +14,7 @@ public class PlayerInteractHandler implements Listener {
 	public void handleInteraction(PlayerInteractEvent e) {
 		
 		Player p = e.getPlayer();
-		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
+		Team team = Team.getTeam(p.getUniqueId());
 		
 		e.setCancelled(true);
 		

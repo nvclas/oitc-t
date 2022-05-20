@@ -16,7 +16,7 @@ public class PlayerDropItemHandler implements Listener {
 		e.setCancelled(true);
 		
 		Player p = e.getPlayer();
-		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
+		Team team = Team.getTeam(p.getUniqueId());
 		
 		if(team != null && team.getFight() != null && team.getFight().getState() == State.ONGOING && team.getFight().getAlive().contains(p)) {
 			e.setCancelled(false);

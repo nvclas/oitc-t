@@ -12,17 +12,17 @@ import de.theniclas.oitct.objects.fight.State;
 import de.theniclas.oitct.utils.Chat;
 
 public class EntityDamageHandler implements Listener {
-	
+
 	@EventHandler
 	public void handleEntityDamage(EntityDamageEvent e) {
-		
+
 		if(!(e.getEntity() instanceof Player)) {
 			e.setCancelled(true);
 			return;
 		}
 		Player p = (Player) e.getEntity();
-		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
-		 
+		Team team = Team.getTeam(p.getUniqueId());
+
 		if(team == null || team.getFight() == null || team.getFight().getState() != State.ONGOING || !team.getFight().getAlive().contains(p)) {
 			e.setCancelled(true);
 			return;
@@ -32,8 +32,8 @@ public class EntityDamageHandler implements Listener {
 			return;
 		}
 		if(e.getFinalDamage() >= p.getHealth()) {
-			e.setCancelled(true);
 			if(e.getCause() != DamageCause.PROJECTILE && e.getCause() != DamageCause.ENTITY_ATTACK) {
+				e.setCancelled(true);
 				for(Player witness : team.getFight().getWitnesses()) {
 					witness.sendMessage(Chat.PREFIX + "§e" + p.getName() + " §bist gestorben");
 				}

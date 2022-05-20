@@ -18,7 +18,7 @@ public class PlayerChangedWorldHandler implements Listener {
 		if(Fight.getSpectatingFight(p) != null) {
 			Fight.getSpectatingFight(p).removeSpectator(p);
 		}
-		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
+		Team team = Team.getTeam(p.getUniqueId());
 		if(team == null || team.getFight() == null) {
 			return;
 		}

@@ -15,11 +15,8 @@ public class PlayerMoveHandler implements Listener {
 
 		Player p = e.getPlayer();
 		
-		if(!Team.hasTeam(p.getUniqueId().toString())) {
-			return;
-		}
-		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
-		if(team.getFight() == null) {
+		Team team = Team.getTeam(p.getUniqueId());
+		if(team == null || team.getFight() == null) {
 			return;
 		}
 		if(team.getFight().getState() != State.STARTING) {

@@ -22,7 +22,7 @@ public class CMDteamchat implements CommandExecutor {
 		}
 		Player p = (Player) sender;
 		
-		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
+		Team team = Team.getTeam(p.getUniqueId());
 		if(team == null) {
 			p.sendMessage(Chat.PREFIX + "§cDu bist in keinem Team");
 			return true;

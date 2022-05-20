@@ -14,7 +14,7 @@ public class BlockBreakHandler implements Listener {
 	public void handleBlockBreak(BlockBreakEvent e) {
 		
 		Player p = e.getPlayer();
-		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
+		Team team = Team.getTeam(p.getUniqueId());
 		
 		e.setCancelled(true);
 		

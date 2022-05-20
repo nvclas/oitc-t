@@ -22,7 +22,7 @@ public class FoodLevelChangeHandler implements Listener {
 			return;
 		}
 		Player p = (Player) e.getEntity();
-		Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
+		Team team = Team.getTeam(p.getUniqueId());
 		
 		if(team == null || team.getFight() == null || team.getFight().getState() != State.ONGOING || !team.getFight().getAlive().contains(p)) {
 			return;

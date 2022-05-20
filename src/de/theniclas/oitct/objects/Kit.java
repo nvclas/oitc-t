@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import de.theniclas.oitct.main.Main;
 import de.theniclas.oitct.utils.Data;
 
 public class Kit {
@@ -16,7 +17,7 @@ public class Kit {
 	private String name;
 	private Inventory inventory;
 	private ItemStack[] armor;
-	public static final Data KITS = new Data("kits.yml");
+	public static final Data KITS = new Data(Main.getPlugin(), "kits.yml");
 	
 	public Kit(String name, Inventory inventory, ItemStack[] armor) {
 		this.name = name;

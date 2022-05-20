@@ -34,27 +34,27 @@ public class Fight {
 	private Map map;
 	private Kit kit;
 	private int lives;
-	
+
 	private HashMap<Player, Integer> livesMap;
 	private List<Player> witnesses;
 	private List<Player> alive;
 	private List<Block> placedBlocks;
-	
+
 	private Scoreboard scoreboard;
-	
+
 	private static HashMap<Player, Fight> spectators = new HashMap<>();
 	private static HashMap<String, Fight> fights = new HashMap<>();
-	
+
 	public Fight(Team team1, Team team2, Map map, Kit kit, int lives) {
 		this.team1 = team1;
 		this.team2 = team2;
 		this.map = map;
 		this.kit = kit;
 		this.lives = lives;
-		
+
 		this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-		
-		if(lives != 0) {
+
+		if(lives > 1) {
 			this.livesMap = new HashMap<>();
 		}
 		this.witnesses = new ArrayList<>();
@@ -103,86 +103,11 @@ public class Fight {
 			}
 		}
 		createScoreboardTeam(team1, team2);
-		new BukkitRunnable() {
 
-			int count = 10;
-
-			@Override
-			public void run() {
-				if(getState() != State.STARTING) {
-					for(Player p : witnesses) {
-						Title.sendTitle(p, "", 0, 0, 0);
-						Title.sendSubtitle(p, "", 0, 0, 0);
-					}
-					cancel();
-				}
-				if(count == 10) {
-					for(Player p : witnesses) {
-						Title.sendSubtitle(p, "§6Kit§7: §f" + getKit().getName(), 10, 20, 0);
-						Title.sendTitle(p, "§e" + getTeam1().getTeamName() + " §cvs§7. §e" + getTeam2().getTeamName(), 10, 20, 0);
-						p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1.0f, 1.0f);
-						kit.giveKit(p);
-					}
-					
-				}
-				if(count <= 9 && count >= 8) {
-					for(Player p : witnesses) {
-						Title.sendSubtitle(p, "§6Kit§7: §f" + getKit().getName(), 0, 30, 0);
-						Title.sendTitle(p, "§e" + getTeam1().getTeamName() + " §cvs§7. §e" + getTeam2().getTeamName(), 0, 30, 0);
-					}
-					
-				}
-				if(count == 7) {
-					for(Player p : witnesses) {
-						Title.sendSubtitle(p, "§a" + count, 0, 30, 0);
-						Title.sendTitle(p, "§e" + getTeam1().getTeamName() + " §cvs§7. §e" + getTeam2().getTeamName(), 0, 30, 0);
-					}
-					
-				}
-				if(count == 6) {
-					for(Player p : witnesses) {
-						Title.sendSubtitle(p, "§a" + count, 0, 10, 10);
-						Title.sendTitle(p, "§e" + getTeam1().getTeamName() + " §cvs§7. §e" + getTeam2().getTeamName(), 0, 10, 10);
-					}
-				}
-				if(count == 5 || count == 4) {
-					for(Player p : witnesses) {
-						Title.sendTitle(p, "§a" + count, 5, 10, 5);
-						p.playSound(p.getLocation(), Sound.NOTE_STICKS, 1.0f, 1.0f);
-					}	
-				}
-				if(count == 3) {
-					for(Player p : witnesses) {
-						Title.sendTitle(p, "§e3", 5, 10, 5);
-						p.playSound(p.getLocation(), Sound.NOTE_BASS, 1.0f, 1.0f);
-					}	
-				}
-				if(count == 2) {
-					for(Player p : witnesses) {
-						Title.sendTitle(p, "§c2", 5, 10, 5);
-						p.playSound(p.getLocation(), Sound.NOTE_BASS, 1.0f, 1.5f);
-					}
-				}
-				if(count == 1) {
-					for(Player p : witnesses) {
-						Title.sendTitle(p, "§41", 5, 10, 5);
-						p.playSound(p.getLocation(), Sound.NOTE_BASS, 1.0f, 2.0f);
-					}
-				}
-				if(count == 0) {
-					for(Player p : witnesses) {
-						Title.sendTitle(p, "§5START", 5, 10, 5);
-						p.playSound(p.getLocation(), Sound.ENDERDRAGON_HIT, 1.0f, 0.8f);
-					}
-					state = State.ONGOING;
-					cancel();
-				}
-				count--;
-			}
-		}.runTaskTimer(Main.getPlugin(), 0, 20);
+		new FightStartRunnable(this).runTaskTimer(Main.getPlugin(), 0, 20);
 	}
-	
-	public void createScoreboardTeam(Team team1, Team team2) {
+
+	private void createScoreboardTeam(Team team1, Team team2) {
 		org.bukkit.scoreboard.Team team = scoreboard.getTeam(team1.getTeamName() + team2.getTeamName());
 		if(team == null) {
 			team = scoreboard.registerNewTeam(team1.getTeamName() + team2.getTeamName());
@@ -239,13 +164,14 @@ public class Fight {
 	public void kill(Player p) {
 		if(livesMap != null && livesMap.containsKey(p)) {
 			if(livesMap.get(p) >= 2) {
-				if(team1.getMembers().contains(p.getUniqueId().toString())) 
-					p.teleport(map.getTeam1Spawns().get(Team.getTeam(Team.getTeamName(p.getUniqueId().toString())).getOnlineMembers().indexOf(p.getUniqueId().toString())));
+				if(team1.getMembers().contains(p.getUniqueId().toString()))
+					p.teleport(map.getTeam1Spawns().get(Team.getTeam(p.getUniqueId()).getOnlineMembers().indexOf(p.getUniqueId().toString())));
 				if(team2.getMembers().contains(p.getUniqueId().toString()))
-					p.teleport(map.getTeam2Spawns().get(Team.getTeam(Team.getTeamName(p.getUniqueId().toString())).getOnlineMembers().indexOf(p.getUniqueId().toString())));
+					p.teleport(map.getTeam2Spawns().get(Team.getTeam(p.getUniqueId()).getOnlineMembers().indexOf(p.getUniqueId().toString())));
 				livesMap.put(p, livesMap.get(p) - 1);
-				p.setLevel(livesMap.get(p));
 				UtilityMethods.fullHeal(p);
+				p.setLevel(livesMap.get(p));
+				p.setExp(1);
 				kit.giveKit(p);
 				p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1 * 20, 1));
 				return;
@@ -265,16 +191,17 @@ public class Fight {
 			return;
 		}
 	}
-
+	
 	public void disqualify(Player p) {
 		alive.remove(p);
 		livesMap.remove(p);
 		witnesses.remove(p);
-		if(livesMap != null && livesMap.containsKey(p)) livesMap.remove(p);
+		if(livesMap != null && livesMap.containsKey(p))
+			livesMap.remove(p);
 		if(state == State.ENDING) {
 			return;
 		}
-		
+
 		for(Player witness : witnesses) {
 			witness.sendMessage(Chat.PREFIX + "§e" + p.getName() + " §bhat den Kampf verlassen");
 		}
@@ -306,7 +233,7 @@ public class Fight {
 		p.setScoreboard(scoreboard);
 	}
 
-	public void updateHashMap() {
+	private void updateHashMap() {
 		fights.put(team1.getTeamName(), this);
 		fights.put(team2.getTeamName(), this);
 	}
@@ -326,7 +253,7 @@ public class Fight {
 	public HashMap<Player, Integer> getLives() {
 		return livesMap;
 	}
-	
+
 	public List<Player> getWitnesses() {
 		return witnesses;
 	}
@@ -334,11 +261,11 @@ public class Fight {
 	public List<Player> getAlive() {
 		return alive;
 	}
-	
+
 	public List<Block> getPlacedBlocks() {
 		return placedBlocks;
 	}
-	
+
 	public static HashMap<String, Fight> getFights() {
 		return fights;
 	}
@@ -349,7 +276,7 @@ public class Fight {
 		}
 		return null;
 	}
-	
+
 	public Scoreboard getScoreboard() {
 		return scoreboard;
 	}
@@ -365,7 +292,7 @@ public class Fight {
 	public Team getWinner() {
 		return winner;
 	}
-	
+
 	public void setWinner(Team winner) {
 		this.winner = winner;
 	}

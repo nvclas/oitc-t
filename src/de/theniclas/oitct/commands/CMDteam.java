@@ -57,11 +57,11 @@ public class CMDteam implements CommandExecutor {
 		}
 		
 		if(args.length == 1 && args[0].equalsIgnoreCase("show")) {
-			if(!Team.hasTeam(p.getUniqueId().toString())) {
+			if(Team.getTeam(p.getUniqueId()) == null) {
 				p.sendMessage(Chat.PREFIX + "§cDu bist in keinem Team");
 				return true;
 			}
-			Team team = Team.getTeam(Team.getTeamName(p.getUniqueId().toString()));
+			Team team = Team.getTeam(p.getUniqueId());
 			p.sendMessage(Chat.PREFIX + "§cDein Team §e" + team.getTeamName() + "§8: §7(§9" + team.getPoints() + "§7)");
 			for(String uuid : team.getMembers()) {
 				p.sendMessage(Chat.PREFIX + "§7- §d" + Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
@@ -82,8 +82,8 @@ public class CMDteam implements CommandExecutor {
 					p.sendMessage(Chat.PREFIX + "§cDieser Spieler war noch nie online");
 					return true;
 				}
-				if(Team.hasTeam(target.getUniqueId().toString())) {
-					p.sendMessage(Chat.PREFIX + "§cDer Spieler ist bereits im Team §6" + Team.getTeamName(target.getUniqueId().toString()));
+				if(Team.getTeam(target.getUniqueId()) != null) {
+					p.sendMessage(Chat.PREFIX + "§cDer Spieler ist bereits im Team §6" + Team.getTeam(target.getUniqueId()));
 					return true;
 				}
 
@@ -139,8 +139,8 @@ public class CMDteam implements CommandExecutor {
 					p.sendMessage(Chat.PREFIX + "§cDieser Spieler war noch nie online");
 					return true;
 				}
-				if(!team.getTeamName().equals(Team.getTeamName(target.getUniqueId().toString()))) {
-					p.sendMessage(Chat.PREFIX + "§cDer Spieler ist in Team §6" + Team.getTeamName(target.getUniqueId().toString()));
+				if(!team.getMembers().contains(target.getUniqueId().toString())) {
+					p.sendMessage(Chat.PREFIX + "§cDer Spieler ist in Team §6" + Team.getTeam(target.getUniqueId()).getTeamName());
 					return true;
 				}
 				team.sendAllMembers(Chat.PREFIX + "§e" + target.getName() + " §bwurde aus §e" + team.getTeamName() + " §bentfernt");
@@ -194,8 +194,8 @@ public class CMDteam implements CommandExecutor {
 					p.sendMessage(Chat.PREFIX + "§cDieser Spieler war noch nie online");
 					return true;
 				}
-				if(Team.hasTeam(target.getUniqueId().toString())) {
-					p.sendMessage(Chat.PREFIX + "§cDer Spieler ist bereits im Team §6" + Team.getTeamName(target.getUniqueId().toString()));
+				if(Team.getTeam(target.getUniqueId()) != null) {
+					p.sendMessage(Chat.PREFIX + "§cDer Spieler ist bereits im Team §6" + Team.getTeam(target.getUniqueId()).getTeamName());
 					return true;
 				}
 				team.addMember(target.getUniqueId().toString());
@@ -244,8 +244,8 @@ public class CMDteam implements CommandExecutor {
 						p.sendMessage(Chat.PREFIX + "§6" + args[i] + " §cwar noch nie online");
 						return true;
 					}
-					if(Team.hasTeam(target.getUniqueId().toString())) {
-						p.sendMessage(Chat.PREFIX + "§6" + target.getName() + " §cist bereits im Team §6" + Team.getTeamName(target.getUniqueId().toString()));
+					if(Team.getTeam(target.getUniqueId()) != null) {
+						p.sendMessage(Chat.PREFIX + "§6" + target.getName() + " §cist bereits im Team §6" + Team.getTeam(target.getUniqueId()).getTeamName());
 						return true;
 					}
 					team.addMember(target.getUniqueId().toString());
